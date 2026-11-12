@@ -1,5 +1,6 @@
 ﻿Use AllWebAppClasses.pkg
 Use cConnection.pkg
+Use cWebMenuItem.pkg
 
 Object oApplication is a cApplication
     Object oConnection is a cConnection
@@ -51,6 +52,17 @@ Object oWebApp is a cWebApp
 
                 Object oViewMenu is a cWebMenuItem
                     Set psCaption to C_$View
+
+                    Object oPosicionItem1 is a cWebMenuItem
+                        Set psCaption to "Posicion"
+
+                        WebRegisterPath ntNavigateBegin oSelectPosicion
+
+                        Procedure OnClick
+                            Forward Send OnClick
+                                Send NavigatePath
+                        End_Procedure
+                    End_Object
                 End_Object
 
                 Object oSignOut_itm is a cWebMenuItem
@@ -132,6 +144,8 @@ Object oWebApp is a cWebApp
     Use WebResourceManager.wo
     
     Use Dashboard.wo
+    Use ZoomPosicion.wo
+    Use SelectPosicion.wo
     Set phoDefaultView to oDashboard
 
 End_Object
