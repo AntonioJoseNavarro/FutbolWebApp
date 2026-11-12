@@ -12,7 +12,7 @@ Use cposicionDataDictionary.dd
 
 Object oZoomPosicion is a cWebView
     Set piColumnCount to 12
-    Set psCaption to "Posicion"
+    Set psCaption to "Posición"
     Set peWebViewStyle to wvsDrilldown
     Set peViewType to vtZoom
     Set pbShowCaption to False
@@ -22,8 +22,8 @@ Object oZoomPosicion is a cWebView
     Object oposicion_DD is a cposicionDataDictionary
     End_Object 
 
-    Set Main_DD To oposicion_DD
-    Set Server  To oposicion_DD
+    Set Main_DD to oposicion_DD
+    Set Server  to oposicion_DD
 
 
     Object oWebMainPanel is a cWebPanel
@@ -148,4 +148,4 @@ Object oZoomPosicion is a cWebView
 
     End_Procedure
 
-End_Object 
+End_Object

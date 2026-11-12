@@ -9,6 +9,7 @@ Use cWebMenuItem.pkg
 Use cWebColumnButton.pkg
 Use cWebColumn.pkg
 Use ZoomLiga.wo
+Use Banderas.pkg
 
 Use cligaDataDictionary.dd
 
@@ -23,8 +24,8 @@ Object oSelectLiga is a cWebView
     Object oliga_DD is a cligaDataDictionary
     End_Object 
 
-    Set Main_DD To oliga_DD
-    Set Server  To oliga_DD
+    Set Main_DD to oliga_DD
+    Set Server  to oliga_DD
 
 
     Object oList is a cWebList
@@ -47,10 +48,17 @@ Object oSelectLiga is a cWebView
             Set piWidth to 1000
         End_Object 
 
+        // Pais con bandera (columna calculada con HTML)
         Object oligaPais is a cWebColumn
-            Entry_Item liga.Pais
             Set psCaption to "liga.Pais"
             Set piWidth to 500
+            Set pbEnabled to False
+            Set pbAllowHtml to True
+            Set pbValueAsTooltip to False
+
+            Procedure OnSetCalculatedValue String ByRef sValue
+                Move (BanderaHtml(liga.Pais)) to sValue
+            End_Procedure
         End_Object 
 
         Object oligaEquipos is a cWebColumn
@@ -168,4 +176,4 @@ Object oSelectLiga is a cWebView
     End_Procedure
 
 
-End_Object 
+End_Object

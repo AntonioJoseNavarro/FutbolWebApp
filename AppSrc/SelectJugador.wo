@@ -1,4 +1,4 @@
-﻿// C:\DataFlexProjects\FutbolWebApp\AppSrc\SelectJugador.wo
+﻿ // C:\DataFlexProjects\FutbolWebApp\AppSrc\SelectJugador.wo
 // Jugador
 //
 
@@ -9,6 +9,7 @@ Use cWebMenuItem.pkg
 Use cWebColumnButton.pkg
 Use cWebColumn.pkg
 Use ZoomJugador.wo
+Use Banderas.pkg
 
 Use cligaDataDictionary.dd
 Use cequipoDataDictionary.dd
@@ -26,15 +27,15 @@ Object oSelectJugador is a cWebView
     End_Object 
 
     Object oequipo_DD is a cequipoDataDictionary
-        Set DDO_Server To oliga_DD
+        Set DDO_Server to oliga_DD
     End_Object 
 
     Object ojugador_DD is a cjugadorDataDictionary
-        Set DDO_Server To oequipo_DD
+        Set DDO_Server to oequipo_DD
     End_Object 
 
-    Set Main_DD To ojugador_DD
-    Set Server  To ojugador_DD
+    Set Main_DD to ojugador_DD
+    Set Server  to ojugador_DD
 
 
     Object oList is a cWebList
@@ -63,10 +64,17 @@ Object oSelectJugador is a cWebView
             Set piWidth to 600
         End_Object 
 
+        // Nacionalidad con bandera (columna calculada con HTML)
         Object ojugadorNacionalidad is a cWebColumn
-            Entry_Item jugador.Nacionalidad
             Set psCaption to "jugador.Nacionalidad"
             Set piWidth to 500
+            Set pbEnabled to False
+            Set pbAllowHtml to True
+            Set pbValueAsTooltip to False
+
+            Procedure OnSetCalculatedValue String ByRef sValue
+                Move (BanderaHtml(jugador.Nacionalidad)) to sValue
+            End_Procedure
         End_Object 
 
         Object oequipoNombre is a cWebColumn
@@ -178,4 +186,4 @@ Object oSelectJugador is a cWebView
     End_Procedure
 
 
-End_Object 
+End_Object

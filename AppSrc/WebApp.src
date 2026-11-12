@@ -54,7 +54,7 @@ Object oWebApp is a cWebApp
                     Set psCaption to C_$View
 
                     Object oPosicionItem1 is a cWebMenuItem
-                        Set psCaption to "Posicion"
+                        Set psCaption to "Posición"
 
                         WebRegisterPath ntNavigateBegin oSelectPosicion
 
