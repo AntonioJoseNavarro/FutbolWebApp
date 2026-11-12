@@ -1,7 +1,7 @@
 [Workspace]
 CurrentProject=WebApp.src
 Location=C:\DataFlexProjects\FutbolWebApp\IdeSrc\Usuario_Studio.dsk
-CreateNew=-1
+CreateNew=3
 [TabWindows]
 GroupCount=1
 HorizontalGroups=1
@@ -13,8 +13,8 @@ Filename=Workspace Dashboard
 ViewType=101
 Top=21
 Left=0
-Bottom=510
-Right=1214
+Bottom=408
+Right=959
 TabIndex=0
 TabGroup=0
 [Window1]
@@ -22,9 +22,9 @@ Filename=C:\DataFlexProjects\FutbolWebApp\AppSrc\WebApp.src
 ViewType=1
 Top=21
 Left=0
-Bottom=510
-Right=1214
-CursorLine=25
-CursorColumn=0
+Bottom=408
+Right=959
+CursorLine=7
+CursorColumn=14
 TabIndex=1
 TabGroup=0

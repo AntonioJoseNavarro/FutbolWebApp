@@ -1,0 +1,266 @@
+/* ===========================================================
+   FutbolWebApp - Estilo futbol
+   =========================================================== */
+
+/* ---------- 1.tema verde ----------
+   Df_Material define sus colores en estas variables (theme.css).*/
+:root {
+    --df-MainDark:    #1b5e20 !important;
+    --df-MainRegular: #2e7d32 !important;
+    --df-MainMedium:  #388e3c !important;
+    --df-MainLight:   #43a047 !important;
+    --df-MainLight2:  #a5d6a7 !important;
+    --df-MainLight3:  #c8e6c9 !important;
+    --df-MainLight4:  #e8f5e9 !important;
+}
+
+/* ---------- 2. Cabecera ---------- */
+/* Linea blanca bajo la cabecera */
+.HeaderPanel {
+    border-bottom: 3px solid #ffffff !important;
+}
+
+/* Icono de menu (tres rayas) y botones de accion en blanco */
+.HeaderPanel.WebPanel .WebContainer .WebButton.WebMenuButton button:before,
+.HeaderPanel.WebPanel .WebActionBar.WebToolBar span.WebItm_Icon:before {
+    color: #ffffff !important;
+}
+
+/* ---------- 3. Fondo de cesped ---------- */
+.WebApp.WebContainer,
+.Dashboard {
+    background: repeating-linear-gradient(
+        90deg,
+        #2e7d32 0px,
+        #2e7d32 80px,
+        #388e3c 80px,
+        #388e3c 160px
+    ) !important;
+}
+
+/* El contenido de cada pantalla,tarjeta oscura con borde blanco, estilo marcador nocturno */
+.WebInlineView > div > div > div > .WebCon_ContentWrp {
+    background-color: #263238 !important;
+    border-radius: 14px !important;
+    box-shadow: 0 0 0 3px #ffffff, 0 8px 20px rgba(0, 0, 0, 0.35) !important;
+    overflow: hidden;
+}
+
+/* Dashboard */
+.Dashboard div {
+    background-color: transparent !important;
+}
+.Dashboard .WebCon_ContentWrp.WebCon_ContentWrp.WebCon_ContentWrp {
+    background-color: transparent !important;
+    box-shadow: none !important;
+}
+
+/* ---------- 4. Tarjetas del Dashboard ----------
+   La parte visible de cada tarjeta es .WebCon_Sizer */
+.Dashboard .Tile .WebCon_Sizer {
+    height: 130px !important;
+    border-radius: 14px !important;
+    box-shadow: 0 0 0 3px #ffffff, 0 6px 14px rgba(0, 0, 0, 0.35) !important;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.Dashboard .Tile .WebCon_Sizer:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 0 0 3px #ffffff, 0 10px 22px rgba(0, 0, 0, 0.45) !important;
+}
+
+/* Titulo un poco mas arriba para dejar sitio al icono */
+.Dashboard .Tile .Tile_Title {
+    top: 30px !important;
+    font-weight: bold;
+}
+.Dashboard .Tile .Tile_Subtitle {
+    top: 34px !important;
+}
+
+/* Icono grande encima del titulo */
+.Dashboard .Tile .Tile_Emoji {
+    display: block;
+    text-align: center;
+    font-size: 30px;
+    height: 36px;
+    line-height: 36px;
+    position: relative;
+    top: 18px;
+}
+
+/* ---------- 5. Color de cada tarjeta ---------- */
+
+/* Bienvenido: blanco */
+.Dashboard .Tile.TBienvenido .WebCon_Sizer    { background-color: #ffffff !important; }
+.Dashboard .Tile.TBienvenido .Tile_Title      { color: #1b5e20 !important; }
+.Dashboard .Tile.TBienvenido .Tile_Subtitle   { color: #558b2f !important; }
+
+/* Posiciones: azul marino */
+.Dashboard .Tile.TPosicion .WebCon_Sizer      { background-color: #1a237e !important; }
+.Dashboard .Tile.TPosicion .Tile_Title        { color: #ffffff !important; }
+.Dashboard .Tile.TPosicion .Tile_Subtitle     { color: #c5cae9 !important; }
+
+/* Ligas: verde oscuro */
+.Dashboard .Tile.TLiga .WebCon_Sizer          { background-color: #1b5e20 !important; }
+.Dashboard .Tile.TLiga .Tile_Title            { color: #ffffff !important; }
+.Dashboard .Tile.TLiga .Tile_Subtitle         { color: #c5e1a5 !important; }
+
+/* Equipos: negro */
+.Dashboard .Tile.TEquipo .WebCon_Sizer        { background-color: #212121 !important; }
+.Dashboard .Tile.TEquipo .Tile_Title          { color: #ffffff !important; }
+.Dashboard .Tile.TEquipo .Tile_Subtitle       { color: #bdbdbd !important; }
+
+/* Entrenadores: rojo */
+.Dashboard .Tile.TEntrenador .WebCon_Sizer    { background-color: #c62828 !important; }
+.Dashboard .Tile.TEntrenador .Tile_Title      { color: #ffffff !important; }
+.Dashboard .Tile.TEntrenador .Tile_Subtitle   { color: #ffcdd2 !important; }
+
+/* Jugadores: dorado */
+.Dashboard .Tile.TJugador .WebCon_Sizer       { background-color: #fbc02d !important; }
+.Dashboard .Tile.TJugador .Tile_Title         { color: #1b5e20 !important; }
+.Dashboard .Tile.TJugador .Tile_Subtitle      { color: #33691e !important; }
+
+/* ---------- 6. Listas: estilo "marcador nocturno" ---------- */
+
+/* Fondo oscuro de la lista  */
+.WebList .WebList_BodyWrp,
+.WebList .WebList_Body {
+    background-color: #263238 !important;
+}
+
+/* Filas oscuras, texto blanco y lineas gris azulado */
+.WebList .WebList_Body .WebList_Row {
+    background-color: #263238 !important;
+    transition: transform 0.15s ease, background-color 0.15s ease;
+}
+.WebList .WebList_Body .WebList_Row td {
+    color: #ffffff !important;
+    padding-top: 12px !important;
+    padding-bottom: 12px !important;
+    font-size: 15px !important;
+    border-bottom: 2px solid #546e7a !important;
+}
+
+/* Filas alternas un poco mas claras */
+.WebList .WebList_Body .WebList_Row.WebList_RowOdd {
+    background-color: #37474f !important;
+}
+
+/* Primera columna (el ID): dorado, grande y con linea separadora */
+.WebList .WebList_Body .WebList_Row td:first-child {
+    color: #fbc02d !important;
+    font-weight: bold !important;
+    font-size: 17px !important;
+    border-right: 2px solid #546e7a !important;
+}
+
+/* Segunda columna (el nombre) en negrita */
+.WebList .WebList_Body .WebList_Row td:nth-child(2) {
+    font-weight: bold !important;
+}
+
+/* Al pasar el raton: fila mas clara, barra dorada y se desplaza */
+.WebList .WebList_Body .WebList_Row:hover {
+    background-color: #455a64 !important;
+    box-shadow: inset 6px 0 0 #fbc02d;
+    transform: translateX(4px);
+    cursor: pointer;
+}
+
+/* Fila seleccionada: dorada con texto oscuro */
+.WebList > div > div > div > div > .WebList_Body.WebList_ShowSelected > .WebList_Row.WebList_Selected,
+.WebList > div > div > div > div > .WebList_Body.WebList_ShowSelected > div > div > .WebList_Row.WebList_Selected {
+    background-color: #fbc02d !important;
+    border-left: 6px solid #f57f17 !important;
+}
+.WebList .WebList_Body .WebList_Row.WebList_Selected td,
+.WebList .WebList_Body .WebList_Row.WebList_Selected td:nth-child(2) {
+    color: #212121 !important;
+}
+.WebList .WebList_Body .WebList_Row.WebList_Selected td:first-child {
+    color: #1b5e20 !important;
+}
+
+/* ---------- 7. Fichas (vistas Zoom) ---------- */
+
+/* Etiquetas de los campos (ID, Nombre...) en dorado */
+.WebControl > div > label,
+.WebControl > div.WebCon_TopLabel > label,
+div.WebCon_TopLabel.WebCon_FloatEnabled > label.WebCon_Float {
+    color: #fbc02d !important;
+    font-weight: bold !important;
+    font-size: 12px !important;
+}
+
+/* Campos: fondo gris oscuro, linea inferior gris azulado */
+.WebControl .WebFrm_Wrapper {
+    background-color: #37474f !important;
+    border-color: #546e7a !important;
+    border-bottom-width: 2px !important;
+    border-radius: 6px 6px 0 0 !important;
+}
+
+/* Texto que se escribe en los campos: blanco */
+.WebForm input,
+.WebForm .WebDynFrm {
+    color: #ffffff !important;
+    font-size: 15px !important;
+}
+
+/* Campo activo (donde esta el cursor): linea dorada */
+.WebControl.Web_Enabled.WebCon_Focus > div > div > .WebFrm_Wrapper {
+    border-color: #fbc02d !important;
+}
+
+/* Lupas de busqueda en dorado */
+.WebForm .WebFrm_Prompt,
+.WebForm .WebFrm_Prompt:before {
+    color: #fbc02d !important;
+}
+
+/* ---------- 8. Banderas en las listas ---------- */
+.WebList img.Bandera {
+    width: 26px;
+    height: auto;
+    vertical-align: middle;
+    margin-right: 8px;
+    border-radius: 3px;
+    box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.6), 0 2px 4px rgba(0, 0, 0, 0.4);
+}
+
+/* ---------- 9. Iconos de posicion ---------- */
+.WebList .IconoPos {
+    display: inline-block;
+    width: 28px;
+    font-size: 20px;
+    text-align: center;
+    vertical-align: middle;
+    margin-right: 6px;
+}
+
+/* ---------- 10. Insignias de los equipos ----------
+   Distintivo propio con iniciales y colores */
+.WebList .Insignia {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    border: 3px solid #ffffff;
+    font-size: 10px;
+    font-weight: bold;
+    color: #ffffff;
+    vertical-align: middle;
+    margin-right: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+    letter-spacing: 0.5px;
+}
+.WebList .Insignia.rm   { background: #ffffff; color: #1a237e; border-color: #fbc02d; }
+.WebList .Insignia.fcb  { background: linear-gradient(90deg, #a50044 50%, #004d98 50%); border-color: #edbb00; }
+.WebList .Insignia.atm  { background: repeating-linear-gradient(90deg, #cb3524 0px, #cb3524 5px, #ffffff 5px, #ffffff 10px); color: #1a237e; border-color: #1a237e; text-shadow: 0 0 3px #ffffff; }
+.WebList .Insignia.mci  { background: #6cabdd; border-color: #1c2c5b; }
+.WebList .Insignia.liv  { background: #c8102e; border-color: #00b2a9; }
+.WebList .Insignia.ars  { background: #ef0107; border-color: #9c824a; }
+.WebList .Insignia.otro { background: #607d8b; }
