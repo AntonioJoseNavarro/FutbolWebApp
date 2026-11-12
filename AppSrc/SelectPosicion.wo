@@ -9,11 +9,12 @@ Use cWebMenuItem.pkg
 Use cWebColumnButton.pkg
 Use cWebColumn.pkg
 Use ZoomPosicion.wo
+Use Banderas.pkg
 
 Use cposicionDataDictionary.dd
 
 Object oSelectPosicion is a cWebView
-    Set psCaption to "Posicion"
+    Set psCaption to "Posición"
     Set peWebViewStyle to wvsDrilldown
     Set peViewType to vtSelect
     Set piColumnCount to 12
@@ -23,8 +24,8 @@ Object oSelectPosicion is a cWebView
     Object oposicion_DD is a cposicionDataDictionary
     End_Object 
 
-    Set Main_DD To oposicion_DD
-    Set Server  To oposicion_DD
+    Set Main_DD to oposicion_DD
+    Set Server  to oposicion_DD
 
 
     Object oList is a cWebList
@@ -41,10 +42,17 @@ Object oSelectPosicion is a cWebView
             Set piWidth to 100
         End_Object 
 
+        // Nombre con icono de posicion (columna calculada con HTML)
         Object oposicionNombre is a cWebColumn
-            Entry_Item posicion.Nombre
             Set psCaption to "posicion.Nombre"
             Set piWidth to 500
+            Set pbEnabled to False
+            Set pbAllowHtml to True
+            Set pbValueAsTooltip to False
+
+            Procedure OnSetCalculatedValue String ByRef sValue
+                Move (PosicionHtml(posicion.Nombre)) to sValue
+            End_Procedure
         End_Object 
 
         Object oDetailButton is a cWebColumnButton
@@ -150,4 +158,4 @@ Object oSelectPosicion is a cWebView
     End_Procedure
 
 
-End_Object 
+End_Object

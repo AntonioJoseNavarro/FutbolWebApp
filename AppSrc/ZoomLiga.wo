@@ -22,8 +22,8 @@ Object oZoomLiga is a cWebView
     Object oliga_DD is a cligaDataDictionary
     End_Object 
 
-    Set Main_DD To oliga_DD
-    Set Server  To oliga_DD
+    Set Main_DD to oliga_DD
+    Set Server  to oliga_DD
 
 
     Object oWebMainPanel is a cWebPanel
@@ -51,7 +51,7 @@ Object oZoomLiga is a cWebView
             Set piColumnSpan to 8
             Set piColumnIndex to 0
             Set peLabelPosition to lpTop
-            Set psLabel to "Pais"
+            Set psLabel to "País"
         End_Object 
 
         Object oligaEquipos is a cWebForm
@@ -64,10 +64,10 @@ Object oZoomLiga is a cWebView
 
         Object oligaEquiposMax is a cWebForm
             Entry_Item liga.EquiposMax
-            Set piColumnSpan to 2
+            Set piColumnSpan to 3
             Set piColumnIndex to 0
             Set peLabelPosition to lpTop
-            Set psLabel to "EquiposMax"
+            Set psLabel to "Máximo de equipos"
         End_Object 
     End_Object 
 
@@ -172,4 +172,4 @@ Object oZoomLiga is a cWebView
 
     End_Procedure
 
-End_Object 
+End_Object

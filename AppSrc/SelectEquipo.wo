@@ -9,6 +9,7 @@ Use cWebMenuItem.pkg
 Use cWebColumnButton.pkg
 Use cWebColumn.pkg
 Use ZoomEquipo.wo
+Use Banderas.pkg
 
 Use cligaDataDictionary.dd
 Use cequipoDataDictionary.dd
@@ -25,11 +26,11 @@ Object oSelectEquipo is a cWebView
     End_Object 
 
     Object oequipo_DD is a cequipoDataDictionary
-        Set DDO_Server To oliga_DD
+        Set DDO_Server to oliga_DD
     End_Object 
 
-    Set Main_DD To oequipo_DD
-    Set Server  To oequipo_DD
+    Set Main_DD to oequipo_DD
+    Set Server  to oequipo_DD
 
 
     Object oList is a cWebList
@@ -46,10 +47,17 @@ Object oSelectEquipo is a cWebView
             Set piWidth to 100
         End_Object 
 
+        // Nombre con insignia del equipo (columna calculada con HTML)
         Object oequipoNombre is a cWebColumn
-            Entry_Item equipo.Nombre
             Set psCaption to "equipo.Nombre"
             Set piWidth to 1201
+            Set pbEnabled to False
+            Set pbAllowHtml to True
+            Set pbValueAsTooltip to False
+
+            Procedure OnSetCalculatedValue String ByRef sValue
+                Move (EquipoHtml(equipo.Nombre)) to sValue
+            End_Procedure
         End_Object 
 
         Object oligaNombre is a cWebColumn
@@ -161,4 +169,4 @@ Object oSelectEquipo is a cWebView
     End_Procedure
 
 
-End_Object 
+End_Object

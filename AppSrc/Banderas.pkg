@@ -1,0 +1,160 @@
+// Banderas.pkg
+// Funciones que devuelven HTML con iconos para las listas.
+// Se compara por las primeras letras (sin tildes) para que funcione
+// igual sea cual sea la codificacion del archivo.
+
+// ---------------------------------------------------------------
+// Bandera + texto (nacionalidades y paises).
+// Imagenes de banderas de flagcdn.com
+// ---------------------------------------------------------------
+Function BanderaHtml Global String sNac Returns String
+    String sTexto sCod
+
+    Move (Trim(sNac)) to sTexto
+    Move "" to sCod
+
+    Case Begin
+        Case (Left(sTexto, 4) = "Espa")
+            Move "es" to sCod
+            Case Break
+        Case (Left(sTexto, 4) = "Alem")
+            Move "de" to sCod
+            Case Break
+        Case (Left(sTexto, 4) = "Arge")
+            Move "ar" to sCod
+            Case Break
+        Case (Left(sTexto, 4) = "Neer")
+            Move "nl" to sCod
+            Case Break
+        Case (Left(sTexto, 4) = "Ital")
+            Move "it" to sCod
+            Case Break
+        Case (Left(sTexto, 4) = "Belg")
+            Move "be" to sCod
+            Case Break
+        Case (Left(sTexto, 4) = "Bras")
+            Move "br" to sCod
+            Case Break
+        Case (Left(sTexto, 4) = "Fran")
+            Move "fr" to sCod
+            Case Break
+        Case (Left(sTexto, 4) = "Urug")
+            Move "uy" to sCod
+            Case Break
+        Case (Left(sTexto, 4) = "Ingl")
+            Move "gb-eng" to sCod
+            Case Break
+        Case (Left(sTexto, 4) = "Esco")
+            Move "gb-sct" to sCod
+            Case Break
+        Case (Left(sTexto, 4) = "Pola")
+            Move "pl" to sCod
+            Case Break
+        Case (Left(sTexto, 4) = "Eslo")
+            Move "si" to sCod
+            Case Break
+        Case (Left(sTexto, 4) = "Moza")
+            Move "mz" to sCod
+            Case Break
+        Case (Left(sTexto, 4) = "Port")
+            Move "pt" to sCod
+            Case Break
+        Case (Left(sTexto, 4) = "Noru")
+            Move "no" to sCod
+            Case Break
+        Case (Left(sTexto, 1) = "H")
+            // Hungaro
+            Move "hu" to sCod
+            Case Break
+        Case (Left(sTexto, 4) = "Colo")
+            Move "co" to sCod
+            Case Break
+        Case (Left(sTexto, 4) = "Egip")
+            Move "eg" to sCod
+            Case Break
+    Case End
+
+    If (sCod = "") Begin
+        Function_Return (htmlEncode(sTexto))
+    End
+
+    Function_Return ('<img class="Bandera" src="https://flagcdn.com/w40/' + sCod + '.png" alt=""> ' + htmlEncode(sTexto))
+End_Function
+
+// ---------------------------------------------------------------
+// Icono de posicion + texto
+// ---------------------------------------------------------------
+Function PosicionHtml Global String sPos Returns String
+    String sTexto sIcono
+
+    Move (Trim(sPos)) to sTexto
+    Move "" to sIcono
+
+    Case Begin
+        Case (Left(sTexto, 4) = "Port")
+            Move "&#129508;" to sIcono
+            Case Break
+        Case (Left(sTexto, 4) = "Defe")
+            Move "&#129521;" to sIcono
+            Case Break
+        Case (Left(sTexto, 4) = "Cent")
+            Move "&#127919;" to sIcono
+            Case Break
+        Case (Left(sTexto, 4) = "Dela")
+            Move "&#9917;" to sIcono
+            Case Break
+    Case End
+
+    If (sIcono = "") Begin
+        Function_Return (htmlEncode(sTexto))
+    End
+
+    Function_Return ('<span class="IconoPos">' + sIcono + '</span> ' + htmlEncode(sTexto))
+End_Function
+
+// ---------------------------------------------------------------
+// Insignia del equipo (iniciales con los colores del club) + texto.
+// Distintivo propio, NO el escudo oficial.
+// ---------------------------------------------------------------
+Function EquipoHtml Global String sEquipo Returns String
+    String sTexto sIni sClase
+
+    Move (Trim(sEquipo)) to sTexto
+    Move "" to sIni
+    Move "" to sClase
+
+    Case Begin
+        Case (Left(sTexto, 4) = "Real")
+            Move "RM" to sIni
+            Move "rm" to sClase
+            Case Break
+        Case (Left(sTexto, 4) = "FC B")
+            Move "FCB" to sIni
+            Move "fcb" to sClase
+            Case Break
+        Case (Left(sTexto, 3) = "Atl")
+            Move "ATM" to sIni
+            Move "atm" to sClase
+            Case Break
+        Case (Left(sTexto, 4) = "Manc")
+            Move "MCI" to sIni
+            Move "mci" to sClase
+            Case Break
+        Case (Left(sTexto, 4) = "Live")
+            Move "LIV" to sIni
+            Move "liv" to sClase
+            Case Break
+        Case (Left(sTexto, 4) = "Arse")
+            Move "ARS" to sIni
+            Move "ars" to sClase
+            Case Break
+    Case End
+
+    // Equipo nuevo sin insignia definida: insignia gris con la inicial
+    If (sIni = "") Begin
+        Move (Uppercase(Left(sTexto, 1))) to sIni
+        Move "otro" to sClase
+    End
+
+    Function_Return ('<span class="Insignia ' + sClase + '">' + sIni + '</span> ' + htmlEncode(sTexto))
+End_Function
