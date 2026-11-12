@@ -7,7 +7,7 @@ GroupCount=1
 HorizontalGroups=1
 [TabGroup0]
 GroupSize=40
-SelectedTab=1
+SelectedTab=3
 [Window0]
 Filename=Workspace Dashboard
 ViewType=101
@@ -27,4 +27,26 @@ Right=959
 CursorLine=25
 CursorColumn=0
 TabIndex=1
+TabGroup=0
+[Window2]
+Filename=C:\DataFlexProjects\FutbolWebApp\AppSrc\ZoomPosicion.wo
+ViewType=1
+Top=21
+Left=0
+Bottom=510
+Right=959
+CursorLine=0
+CursorColumn=0
+TabIndex=2
+TabGroup=0
+[Window3]
+Filename=C:\DataFlexProjects\FutbolWebApp\AppSrc\SelectPosicion.wo
+ViewType=1
+Top=21
+Left=0
+Bottom=510
+Right=959
+CursorLine=0
+CursorColumn=0
+TabIndex=3
 TabGroup=0
