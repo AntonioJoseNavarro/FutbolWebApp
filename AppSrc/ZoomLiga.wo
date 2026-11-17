@@ -7,14 +7,13 @@ Use cWebPanel.pkg
 Use cWebMenuGroup.pkg
 Use cWebMenuItem.pkg
 Use cWebForm.pkg
-Use cWebButton.pkg
+Use cWebLabel.pkg
+Use cWebList.pkg
+Use cWebColumn.pkg
+Use Banderas.pkg
 
 Use cligaDataDictionary.dd
-
-// Vista a la que navega el boton "Ver equipos".
-// Se usa Register_Object (y no Use) para evitar una inclusion circular:
-// SelectEquipo -> ZoomEquipo -> SelectLiga -> ZoomLiga
-Register_Object oSelectEquipo
+Use cequipoDataDictionary.dd
 
 Object oZoomLiga is a cWebView
     Set piColumnCount to 12
@@ -26,6 +25,13 @@ Object oZoomLiga is a cWebView
     Set piMaxWidth to 1024
 
     Object oliga_DD is a cligaDataDictionary
+    End_Object 
+
+    // Sprint 2 - Punto 3.2: DD hijo (equipo) conectado al DD padre (liga).
+    // Constrain_File hace que solo se vean los equipos de la liga cargada.
+    Object oequipo_DD is a cequipoDataDictionary
+        Set DDO_Server to oliga_DD
+        Set Constrain_File to liga.File_Number
     End_Object 
 
     Set Main_DD to oliga_DD
@@ -76,19 +82,42 @@ Object oZoomLiga is a cWebView
             Set psLabel to "Máximo de equipos"
         End_Object 
 
-        // Sprint 2 - Punto 3.1: navegacion From Parent (liga -> equipos de esa liga)
-        Object oVerEquiposBtn is a cWebButton
-            Set psCaption to "Ver equipos de esta liga"
-            Set piColumnSpan to 4
-            Set piColumnIndex to 0
+        // Sprint 2 - Punto 3.2: en vez del boton, los equipos de esta liga
+        Object oEquiposLabel is a cWebLabel
+            Set psCaption to "Equipos de esta liga"
+            Set piColumnSpan to 0
             // Estilo propio definido en application.css
-            Set psCSSClass to "BotonFutbol IconoEquipos"
+            Set psCSSClass to "TituloSeccion"
+        End_Object
 
-            WebRegisterPath ntNavigateForward oSelectEquipo
+        Object oEquiposList is a cWebList
+            Set Server to oequipo_DD
+            Set piColumnSpan to 0
+            Set psCSSClass to "MobileList"
+            Set pbShowHeader to False
+            // Ordenada por la primera columna (ID) de menor a mayor
+            Set piSortColumn to 0
+            // Altura suficiente para ver varios equipos sin scroll
+            Set piHeight to 300
 
-            Procedure OnClick
-                Send NavigatePath
-            End_Procedure
+            Object oequipoID is a cWebColumn
+                Entry_Item equipo.ID
+                Set psCaption to "ID"
+                Set piWidth to 100
+            End_Object
+
+            // Nombre con insignia del equipo (columna calculada con HTML)
+            Object oequipoNombre is a cWebColumn
+                Set psCaption to "Equipo"
+                Set piWidth to 900
+                Set pbEnabled to False
+                Set pbAllowHtml to True
+                Set pbValueAsTooltip to False
+
+                Procedure OnSetCalculatedValue String ByRef sValue
+                    Move (EquipoHtml(equipo.Nombre)) to sValue
+                End_Procedure
+            End_Object
         End_Object
     End_Object 
 
@@ -150,9 +179,6 @@ Object oZoomLiga is a cWebView
         WebSet pbRender of oSaveBtn to False
         WebSet pbRender of oCancelChangesBtn to False
         WebSet pbRender of oDeleteBtn to False
-
-        // El boton "Ver equipos" solo tiene sentido si hay una liga cargada
-        WebSet pbRender of oVerEquiposBtn to bHasRecord
 
         If (NavigateData.bReadOnly) Begin
             WebSet pbRender of oEditBtn to True
