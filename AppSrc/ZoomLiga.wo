@@ -7,8 +7,13 @@ Use cWebPanel.pkg
 Use cWebMenuGroup.pkg
 Use cWebMenuItem.pkg
 Use cWebForm.pkg
+Use cWebLabel.pkg
+Use cWebList.pkg
+Use cWebColumn.pkg
+Use Banderas.pkg
 
 Use cligaDataDictionary.dd
+Use cequipoDataDictionary.dd
 
 Object oZoomLiga is a cWebView
     Set piColumnCount to 12
@@ -20,6 +25,13 @@ Object oZoomLiga is a cWebView
     Set piMaxWidth to 1024
 
     Object oliga_DD is a cligaDataDictionary
+    End_Object 
+
+    // Sprint 2 - Punto 3.2: DD hijo (equipo) conectado al DD padre (liga).
+    // Constrain_File hace que solo se vean los equipos de la liga cargada.
+    Object oequipo_DD is a cequipoDataDictionary
+        Set DDO_Server to oliga_DD
+        Set Constrain_File to liga.File_Number
     End_Object 
 
     Set Main_DD to oliga_DD
@@ -69,6 +81,44 @@ Object oZoomLiga is a cWebView
             Set peLabelPosition to lpTop
             Set psLabel to "Máximo de equipos"
         End_Object 
+
+        // Sprint 2 - Punto 3.2: en vez del boton, los equipos de esta liga
+        Object oEquiposLabel is a cWebLabel
+            Set psCaption to "Equipos de esta liga"
+            Set piColumnSpan to 0
+            // Estilo propio definido en application.css
+            Set psCSSClass to "TituloSeccion"
+        End_Object
+
+        Object oEquiposList is a cWebList
+            Set Server to oequipo_DD
+            Set piColumnSpan to 0
+            Set psCSSClass to "MobileList"
+            Set pbShowHeader to False
+            // Ordenada por la primera columna (ID) de menor a mayor
+            Set piSortColumn to 0
+            // Altura suficiente para ver varios equipos sin scroll
+            Set piHeight to 300
+
+            Object oequipoID is a cWebColumn
+                Entry_Item equipo.ID
+                Set psCaption to "ID"
+                Set piWidth to 100
+            End_Object
+
+            // Nombre con insignia del equipo (columna calculada con HTML)
+            Object oequipoNombre is a cWebColumn
+                Set psCaption to "Equipo"
+                Set piWidth to 900
+                Set pbEnabled to False
+                Set pbAllowHtml to True
+                Set pbValueAsTooltip to False
+
+                Procedure OnSetCalculatedValue String ByRef sValue
+                    Move (EquipoHtml(equipo.Nombre)) to sValue
+                End_Procedure
+            End_Object
+        End_Object
     End_Object 
 
     Object oActionGroup is a cWebMenuGroup

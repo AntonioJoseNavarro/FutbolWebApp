@@ -7,7 +7,10 @@ Use cWebPanel.pkg
 Use cWebMenuGroup.pkg
 Use cWebMenuItem.pkg
 Use cWebForm.pkg
+Use cWebButton.pkg
 Use SelectEquipo.wo
+// Vista a la que navega el boton "Ver posiciones" (Sprint 2 - Punto 4)
+Use SelectPosicion.wo
 
 Use cligaDataDictionary.dd
 Use cequipoDataDictionary.dd
@@ -26,15 +29,15 @@ Object oZoomJugador is a cWebView
     End_Object 
 
     Object oequipo_DD is a cequipoDataDictionary
-        Set DDO_Server To oliga_DD
+        Set DDO_Server to oliga_DD
     End_Object 
 
     Object ojugador_DD is a cjugadorDataDictionary
-        Set DDO_Server To oequipo_DD
+        Set DDO_Server to oequipo_DD
     End_Object 
 
-    Set Main_DD To ojugador_DD
-    Set Server  To ojugador_DD
+    Set Main_DD to ojugador_DD
+    Set Server  to ojugador_DD
 
 
     Object oWebMainPanel is a cWebPanel
@@ -102,6 +105,24 @@ Object oZoomJugador is a cWebView
                 Send NavigatePath
             End_Procedure
         End_Object 
+
+        // Sprint 2 - Punto 4: navegacion Undefined (jugador -> posiciones).
+        // jugador y posicion no tienen relacion directa (solo a traves de
+        // jugadorposicion), por eso DataFlex no puede intercambiar datos
+        // entre sus DD y el tipo de navegacion es nfUndefined.
+        Object oVerPosicionesBtn is a cWebButton
+            Set psCaption to "Ver posiciones"
+            Set piColumnSpan to 4
+            Set piColumnIndex to 0
+            // Mismo estilo que el boton de ZoomLiga (application.css)
+            Set psCSSClass to "BotonFutbol"
+
+            WebRegisterPath ntNavigateForward oSelectPosicion
+
+            Procedure OnClick
+                Send NavigatePath
+            End_Procedure
+        End_Object
     End_Object 
 
     Object oActionGroup is a cWebMenuGroup
@@ -163,6 +184,9 @@ Object oZoomJugador is a cWebView
         WebSet pbRender of oCancelChangesBtn to False
         WebSet pbRender of oDeleteBtn to False
 
+        // El boton "Ver posiciones" solo se muestra si hay un jugador cargado
+        WebSet pbRender of oVerPosicionesBtn to bHasRecord
+
         If (NavigateData.bReadOnly) Begin
             WebSet pbRender of oEditBtn to True
         End
@@ -205,4 +229,4 @@ Object oZoomJugador is a cWebView
 
     End_Procedure
 
-End_Object 
+End_Object
