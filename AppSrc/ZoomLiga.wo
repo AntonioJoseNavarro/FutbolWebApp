@@ -7,8 +7,14 @@ Use cWebPanel.pkg
 Use cWebMenuGroup.pkg
 Use cWebMenuItem.pkg
 Use cWebForm.pkg
+Use cWebButton.pkg
 
 Use cligaDataDictionary.dd
+
+// Vista a la que navega el boton "Ver equipos".
+// Se usa Register_Object (y no Use) para evitar una inclusion circular:
+// SelectEquipo -> ZoomEquipo -> SelectLiga -> ZoomLiga
+Register_Object oSelectEquipo
 
 Object oZoomLiga is a cWebView
     Set piColumnCount to 12
@@ -69,6 +75,21 @@ Object oZoomLiga is a cWebView
             Set peLabelPosition to lpTop
             Set psLabel to "Máximo de equipos"
         End_Object 
+
+        // Sprint 2 - Punto 3.1: navegacion From Parent (liga -> equipos de esa liga)
+        Object oVerEquiposBtn is a cWebButton
+            Set psCaption to "Ver equipos de esta liga"
+            Set piColumnSpan to 4
+            Set piColumnIndex to 0
+            // Estilo propio definido en application.css
+            Set psCSSClass to "BotonFutbol IconoEquipos"
+
+            WebRegisterPath ntNavigateForward oSelectEquipo
+
+            Procedure OnClick
+                Send NavigatePath
+            End_Procedure
+        End_Object
     End_Object 
 
     Object oActionGroup is a cWebMenuGroup
@@ -129,6 +150,9 @@ Object oZoomLiga is a cWebView
         WebSet pbRender of oSaveBtn to False
         WebSet pbRender of oCancelChangesBtn to False
         WebSet pbRender of oDeleteBtn to False
+
+        // El boton "Ver equipos" solo tiene sentido si hay una liga cargada
+        WebSet pbRender of oVerEquiposBtn to bHasRecord
 
         If (NavigateData.bReadOnly) Begin
             WebSet pbRender of oEditBtn to True
