@@ -306,3 +306,50 @@ div.WebCon_TopLabel.WebCon_FloatEnabled > label.WebCon_Float {
     padding-bottom: 4px !important;
     border-bottom: 2px solid #fbc02d !important;
 }
+
+/* ---------- 13. Pantalla de login (Sprint 3) ----------
+   Titulo propio en lugar del logo de DataFlex:
+   balon que bota, nombre de la app y lema. */
+.LoginTitulo {
+    text-align: center;
+    padding: 24px 0 18px 0;
+}
+
+/* Balon grande con animacion de bote */
+.LoginTitulo .Balon {
+    display: inline-block;
+    font-size: 64px;
+    line-height: 72px;
+    animation: boteBalon 1.6s ease-in-out infinite;
+}
+@keyframes boteBalon {
+    0%, 100% { transform: translateY(0); }
+    50%      { transform: translateY(-12px); }
+}
+
+/* Nombre de la app: "Futbol" en blanco y "WebApp" en dorado */
+.LoginTitulo .Nombre {
+    margin-top: 8px;
+    font-size: 30px;
+    font-weight: bold;
+    color: #ffffff;
+    letter-spacing: 0.5px;
+}
+.LoginTitulo .Nombre span {
+    color: #fbc02d;
+}
+
+/* Lema debajo del nombre */
+.LoginTitulo .Lema {
+    margin-top: 4px;
+    font-size: 13px;
+    color: #a5d6a7;
+}
+
+/* Mensaje de error del login: rojo claro y en negrita
+   para que se lea bien sobre la tarjeta oscura */
+.WebLabel.LoginWarning,
+.WebLabel.LoginWarning div {
+    color: #ef5350 !important;
+    font-weight: bold !important;
+}
