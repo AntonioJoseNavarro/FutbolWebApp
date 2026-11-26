@@ -219,8 +219,9 @@ div.WebCon_TopLabel.WebCon_FloatEnabled > label.WebCon_Float {
     color: #fbc02d !important;
 }
 
-/* ---------- 8. Banderas en las listas ---------- */
-.WebList img.Bandera {
+/* ---------- 8. Banderas (listas y cromo) ---------- */
+.WebList img.Bandera,
+.Cromo img.Bandera {
     width: 26px;
     height: auto;
     vertical-align: middle;
@@ -239,9 +240,10 @@ div.WebCon_TopLabel.WebCon_FloatEnabled > label.WebCon_Float {
     margin-right: 6px;
 }
 
-/* ---------- 10. Insignias de los equipos ----------
+/* ---------- 10. Insignias de los equipos (listas y cromo) ----------
    Distintivo propio con iniciales y colores */
-.WebList .Insignia {
+.WebList .Insignia,
+.Cromo .Insignia {
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -257,13 +259,13 @@ div.WebCon_TopLabel.WebCon_FloatEnabled > label.WebCon_Float {
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
     letter-spacing: 0.5px;
 }
-.WebList .Insignia.rm   { background: #ffffff; color: #1a237e; border-color: #fbc02d; }
-.WebList .Insignia.fcb  { background: linear-gradient(90deg, #a50044 50%, #004d98 50%); border-color: #edbb00; }
-.WebList .Insignia.atm  { background: repeating-linear-gradient(90deg, #cb3524 0px, #cb3524 5px, #ffffff 5px, #ffffff 10px); color: #1a237e; border-color: #1a237e; text-shadow: 0 0 3px #ffffff; }
-.WebList .Insignia.mci  { background: #6cabdd; border-color: #1c2c5b; }
-.WebList .Insignia.liv  { background: #c8102e; border-color: #00b2a9; }
-.WebList .Insignia.ars  { background: #ef0107; border-color: #9c824a; }
-.WebList .Insignia.otro { background: #607d8b; }
+.WebList .Insignia.rm,   .Cromo .Insignia.rm   { background: #ffffff; color: #1a237e; border-color: #fbc02d; }
+.WebList .Insignia.fcb,  .Cromo .Insignia.fcb  { background: linear-gradient(90deg, #a50044 50%, #004d98 50%); border-color: #edbb00; }
+.WebList .Insignia.atm,  .Cromo .Insignia.atm  { background: repeating-linear-gradient(90deg, #cb3524 0px, #cb3524 5px, #ffffff 5px, #ffffff 10px); color: #1a237e; border-color: #1a237e; text-shadow: 0 0 3px #ffffff; }
+.WebList .Insignia.mci,  .Cromo .Insignia.mci  { background: #6cabdd; border-color: #1c2c5b; }
+.WebList .Insignia.liv,  .Cromo .Insignia.liv  { background: #c8102e; border-color: #00b2a9; }
+.WebList .Insignia.ars,  .Cromo .Insignia.ars  { background: #ef0107; border-color: #9c824a; }
+.WebList .Insignia.otro, .Cromo .Insignia.otro { background: #607d8b; }
 
 /* ---------- 11. Botones de navegacion (Sprint 2) ----------
    Clase BotonFutbol: dorado con borde blanco, estilo marcador.
@@ -354,18 +356,18 @@ div.WebCon_TopLabel.WebCon_FloatEnabled > label.WebCon_Float {
     font-weight: bold !important;
 }
 
-/* ---------- 14. Equipo en las listas (Sprint 3) ----------
-   Texto "Sin equipo" para registros sin equipo asignado
-   (por ejemplo, un entrenador libre). */
-.WebList .SinEquipo {
+/* ---------- 14. "Sin equipo" (listas y cromo) ---------- */
+.WebList .SinEquipo,
+.Cromo .SinEquipo {
     color: #90a4ae;
     font-style: italic;
     font-weight: normal;
 }
 
-/* ---------- 15. Etiqueta de liga con bandera (Sprint 3) ----------
+/* ---------- 15. Etiqueta de liga con bandera (listas y cromo) ----------
    Liga dentro de una "pastilla" redondeada con la bandera de su pais. */
-.WebList .LigaChip {
+.WebList .LigaChip,
+.Cromo .LigaChip {
     display: inline-flex;
     align-items: center;
     padding: 4px 12px 4px 6px;
@@ -374,7 +376,8 @@ div.WebCon_TopLabel.WebCon_FloatEnabled > label.WebCon_Float {
     border: 1px solid #546e7a;
     font-weight: bold;
 }
-.WebList .LigaChip img.Bandera {
+.WebList .LigaChip img.Bandera,
+.Cromo .LigaChip img.Bandera {
     margin-right: 8px;
 }
 
@@ -411,16 +414,18 @@ div.WebCon_TopLabel.WebCon_FloatEnabled > label.WebCon_Float {
     padding: 6px 4px 6px 4px !important;
 }
 
-/* ---------- 17. Entrenador en las listas (Sprint 3) ---------- */
-.WebList .EntrenadorChip {
+/* ---------- 17. Entrenador (listas y cromo) ---------- */
+.WebList .EntrenadorChip,
+.Cromo .EntrenadorChip {
     display: inline-flex;
     align-items: center;
     gap: 6px;
     font-weight: bold;
 }
 
-/* ---------- 18. Nombre del equipo junto a la insignia (Sprint 3) ---------- */
-.WebList .EquipoNombre {
+/* ---------- 18. Nombre del equipo junto a la insignia (listas y cromo) ---------- */
+.WebList .EquipoNombre,
+.Cromo .EquipoNombre {
     font-weight: bold;
 }
 
@@ -510,4 +515,144 @@ div.WebCon_TopLabel.WebCon_FloatEnabled > label.WebCon_Float {
 .WebList .WebList_Body .WebList_Row.WebList_RowEmpty td:first-child {
     border-bottom: none !important;
     border-right: none !important;
+}
+
+/* ---------- 23. Cromo: cabecera de las fichas Zoom (Sprint 3) ----------
+   Estructura: franja del club | nombre + datos con etiquetas | dorsal.
+   El dorsal lleva detras las iniciales del club como marca de agua. */
+.Cromo {
+    display: flex;
+    align-items: stretch;
+    gap: 18px;
+    padding: 16px 20px;
+    margin-bottom: 12px;
+    border-radius: 12px;
+    background: linear-gradient(135deg, #1c262b 0%, #2e3c43 100%);
+    box-shadow: inset 0 0 0 2px #fbc02d, 0 4px 12px rgba(0, 0, 0, 0.35);
+    overflow: hidden;
+}
+
+/* Franja vertical grande con los colores del club */
+.Cromo .CromoFranja {
+    width: 12px;
+    min-height: 90px;
+    border-radius: 6px;
+    flex-shrink: 0;
+    box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.6);
+}
+.Cromo .CromoFranja.rm   { background: linear-gradient(180deg, #ffffff 70%, #fbc02d 70%); }
+.Cromo .CromoFranja.fcb  { background: linear-gradient(180deg, #a50044 50%, #004d98 50%); }
+.Cromo .CromoFranja.atm  { background: repeating-linear-gradient(180deg, #cb3524 0px, #cb3524 8px, #ffffff 8px, #ffffff 16px); }
+.Cromo .CromoFranja.mci  { background: #6cabdd; }
+.Cromo .CromoFranja.liv  { background: #c8102e; }
+.Cromo .CromoFranja.ars  { background: linear-gradient(180deg, #ef0107 70%, #ffffff 70%); }
+.Cromo .CromoFranja.otro { background: #607d8b; }
+
+/* Bloque central: nombre y datos */
+.Cromo .CromoInfo {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    flex: 1;
+    min-width: 0;
+}
+
+/* Nombre grande */
+.Cromo .CromoNombre {
+    font-size: 26px;
+    font-weight: bold;
+    color: #ffffff;
+    letter-spacing: 0.5px;
+}
+
+/* Texto de ayuda para un jugador nuevo */
+.Cromo .CromoAviso {
+    margin-top: 8px;
+    color: #90a4ae;
+    font-style: italic;
+}
+
+/* Fila de datos: todos alineados arriba (las etiquetas quedan a la misma altura) */
+.Cromo .CromoDatos {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    margin-top: 12px;
+    color: #eceff1;
+    font-size: 15px;
+    row-gap: 10px;
+}
+
+/* Cada dato: etiqueta en su linea y, debajo, el valor en una sola linea
+   (bandera + texto, insignia + nombre...). Altura de linea igual a la
+   insignia para que todos los valores queden centrados a la misma altura. */
+.Cromo .CromoDato {
+    display: block;
+    padding: 0 16px;
+    line-height: 34px;
+    white-space: nowrap;
+}
+.Cromo .CromoDato:first-child {
+    padding-left: 0;
+}
+
+/* Separador fino entre datos */
+.Cromo .CromoDato + .CromoDato {
+    border-left: 1px solid rgba(255, 255, 255, 0.18);
+}
+
+/* Etiqueta pequena dorada (NACIONALIDAD, EQUIPO, LIGA, ENTRENADOR) */
+.Cromo .CromoEtiqueta {
+    display: block;
+    color: #fbc02d;
+    font-size: 10px;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    line-height: 14px;
+    margin-bottom: 4px;
+}
+
+/* Dorsal grande a la derecha */
+.Cromo .CromoDorsal {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 150px;
+    flex-shrink: 0;
+}
+
+/* Iniciales del club gigantes como marca de agua */
+.Cromo .CromoMarca {
+    position: absolute;
+    font-size: 96px;
+    font-weight: 900;
+    color: rgba(255, 255, 255, 0.07);
+    letter-spacing: 2px;
+    user-select: none;
+}
+
+/* Numero del dorsal */
+.Cromo .CromoNumero {
+    position: relative;
+    font-size: 64px;
+    font-weight: 900;
+    color: #fbc02d;
+    line-height: 1;
+    text-shadow: 0 3px 8px rgba(0, 0, 0, 0.5);
+}
+.Cromo .CromoNumero small {
+    font-size: 28px;
+    margin-right: 2px;
+    vertical-align: top;
+    color: #f9a825;
+}
+
+/* Movil: dorsal mas pequeno y sin marca de agua */
+@media (max-width: 600px) {
+    .Cromo .CromoDorsal { min-width: 70px; }
+    .Cromo .CromoMarca  { display: none; }
+    .Cromo .CromoNumero { font-size: 40px; }
+    .Cromo .CromoNombre { font-size: 20px; }
 }
