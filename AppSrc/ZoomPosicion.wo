@@ -12,6 +12,8 @@ Use cWebHtmlBox.pkg
 Use Banderas.pkg
 
 Use cposicionDataDictionary.dd
+// Sprint 3: tabla hija, necesaria para poder borrar posiciones
+Use cjugadorposicionDataDictionary.dd
 
 Object oZoomPosicion is a cWebView
     Set piColumnCount to 12
@@ -23,12 +25,22 @@ Object oZoomPosicion is a cWebView
     Set piMaxWidth to 1024
 
     Object oposicion_DD is a cposicionDataDictionary
+        // Sprint 3: no borrar en cascada. Si algun jugador tiene esta
+        // posicion, el borrado se rechaza en lugar de borrar sus asignaciones.
+        Set Cascade_Delete_State to False
+
         // Sprint 3: al cargar otra posicion se redibuja el cromo de la cabecera
         Procedure OnNewCurrentRecord RowID riOldRowId RowID riNewRowId
             Forward Send OnNewCurrentRecord riOldRowId riNewRowId
             Send ActualizarCabecera
         End_Procedure
     End_Object 
+
+    // Sprint 3: hijo de posicion (jugadores que tienen cada posicion).
+    // El DD lo necesita para comprobar si la posicion se usa antes de borrarla.
+    Object ojugadorposicion_DD is a cjugadorposicionDataDictionary
+        Set DDO_Server to oposicion_DD
+    End_Object
 
     Set Main_DD to oposicion_DD
     Set Server  to oposicion_DD

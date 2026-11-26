@@ -740,3 +740,25 @@ div.WebCon_TopLabel.WebCon_FloatEnabled > label.WebCon_Float {
         font-size: 34px;
     }
 }
+
+/* ---------- 28. Contadores de las tarjetas del Dashboard (Sprint 3) ----------
+   Numero de registros dentro de una pastilla: "6 posiciones". */
+.Dashboard .Tile .Tile_Num {
+    display: inline-block;
+    min-width: 22px;
+    padding: 0 8px;
+    margin-right: 4px;
+    border-radius: 10px;
+    font-weight: 900;
+    font-size: 15px;
+    line-height: 20px;
+    text-align: center;
+    color: #ffffff;
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+/* Tarjeta dorada (Jugadores): pastilla verde oscuro para que se lea */
+.Dashboard .Tile.TJugador .Tile_Num {
+    color: #ffffff;
+    background-color: #1b5e20;
+}
