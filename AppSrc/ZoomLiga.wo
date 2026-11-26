@@ -10,6 +10,7 @@ Use cWebForm.pkg
 Use cWebLabel.pkg
 Use cWebList.pkg
 Use cWebColumn.pkg
+Use cWebHtmlBox.pkg
 Use Banderas.pkg
 
 Use cligaDataDictionary.dd
@@ -25,10 +26,16 @@ Object oZoomLiga is a cWebView
     Set piMaxWidth to 1024
 
     Object oliga_DD is a cligaDataDictionary
+        // Sprint 3: al cargar otra liga se redibuja el cromo de la cabecera
+        Procedure OnNewCurrentRecord RowID riOldRowId RowID riNewRowId
+            Forward Send OnNewCurrentRecord riOldRowId riNewRowId
+            Send ActualizarCabecera
+        End_Procedure
     End_Object 
 
     // Sprint 2 - Punto 3.2: DD hijo (equipo) conectado al DD padre (liga).
     // Constrain_File hace que solo se vean los equipos de la liga cargada.
+    // (Este DDO NO redibuja el cromo: cambia de registro al rellenar la lista)
     Object oequipo_DD is a cequipoDataDictionary
         Set DDO_Server to oliga_DD
         Set Constrain_File to liga.File_Number
@@ -41,6 +48,12 @@ Object oZoomLiga is a cWebView
     Object oWebMainPanel is a cWebPanel
         Set piColumnCount to 12
         WebSetResponsive piColumnCount rmMobile to 4
+
+        // Sprint 3: cabecera tipo "cromo" de la liga (se rellena en ActualizarCabecera)
+        Object oCabecera is a cWebHtmlBox
+            Set piColumnSpan to 0
+            Set psHtml to ''
+        End_Object
 
         Object oligaID is a cWebForm
             Entry_Item liga.ID
@@ -165,6 +178,52 @@ Object oZoomLiga is a cWebView
         End_Object 
     End_Object 
 
+    // Sprint 3: construye el cromo de la cabecera con los datos de la liga.
+    // Estructura: franja dorada | nombre + datos con etiquetas | bandera grande
+    Procedure ActualizarCabecera
+        String sLiga sPais sCod sHtml
+        Integer iEquipos iMax
+
+        Get Field_Current_Value of oliga_DD Field liga.Nombre     to sLiga
+        Get Field_Current_Value of oliga_DD Field liga.Pais       to sPais
+        Get Field_Current_Value of oliga_DD Field liga.Equipos    to iEquipos
+        Get Field_Current_Value of oliga_DD Field liga.EquiposMax to iMax
+
+        // Liga nueva (sin nombre todavia)
+        If (Trim(sLiga) = "") Begin
+            Move ('<div class="Cromo"><div class="CromoFranja otro"></div>' + ;
+                  '<div class="CromoInfo"><div class="CromoNombre">Nueva liga</div>' + ;
+                  '<div class="CromoAviso">Escribe su nombre, su pa&iacute;s y el m&aacute;ximo de equipos</div></div></div>') to sHtml
+        End
+        Else Begin
+            // Franja dorada + nombre
+            Move ('<div class="Cromo"><div class="CromoFranja oro"></div>' + ;
+                  '<div class="CromoInfo">' + ;
+                  '<div class="CromoNombre">' + htmlEncode(Trim(sLiga)) + '</div>' + ;
+                  '<div class="CromoDatos">') to sHtml
+
+            // Datos con su etiqueta encima
+            Move (sHtml + '<div class="CromoDato"><div class="CromoEtiqueta">Pa&iacute;s</div>' + BanderaHtml(sPais) + '</div>') to sHtml
+            Move (sHtml + '<div class="CromoDato"><div class="CromoEtiqueta">Plazas</div>' + PlazasHtml(iEquipos, iMax) + '</div>') to sHtml
+            Move (sHtml + '</div></div>') to sHtml
+
+            // Bandera grande del pais a la derecha (o un trofeo si no se reconoce)
+            Move (CodigoBandera(sPais)) to sCod
+            If (sCod <> "") Begin
+                Move (sHtml + '<div class="CromoDorsal">' + ;
+                      '<img class="CromoBanderaGrande" src="https://flagcdn.com/w160/' + sCod + '.png" alt="">' + ;
+                      '</div></div>') to sHtml
+            End
+            Else Begin
+                Move (sHtml + '<div class="CromoDorsal">' + ;
+                      '<span class="CromoNumero CromoIcono">&#127942;</span>' + ;
+                      '</div></div>') to sHtml
+            End
+        End
+
+        Send UpdateHTML of oCabecera sHtml
+    End_Procedure
+
     Procedure SetActionButtons
         tWebNavigateData NavigateData
         Boolean bHasRecord
@@ -219,6 +278,8 @@ Object oZoomLiga is a cWebView
         Case End
 
         Send SetActionButtons
+        // Sprint 3: dibujar el cromo al abrir la ficha
+        Send ActualizarCabecera
 
     End_Procedure
 

@@ -120,10 +120,10 @@ Function LigaHtml Global String sPais String sLiga Returns String
 End_Function
 
 // ---------------------------------------------------------------
-// Icono de posicion + texto
-// Sprint 3: las posiciones no reconocidas llevan una bota como icono
+// Sprint 3: icono (entidad HTML) de una posicion.
+// Las posiciones no reconocidas llevan una bota.
 // ---------------------------------------------------------------
-Function PosicionHtml Global String sPos Returns String
+Function IconoPosicion Global String sPos Returns String
     String sTexto sIcono
 
     Move (Trim(sPos)) to sTexto
@@ -145,7 +145,14 @@ Function PosicionHtml Global String sPos Returns String
             Case Break
     Case End
 
-    Function_Return ('<span class="IconoPos">' + sIcono + '</span> ' + htmlEncode(sTexto))
+    Function_Return sIcono
+End_Function
+
+// ---------------------------------------------------------------
+// Icono de posicion + texto
+// ---------------------------------------------------------------
+Function PosicionHtml Global String sPos Returns String
+    Function_Return ('<span class="IconoPos">' + IconoPosicion(sPos) + '</span> ' + htmlEncode(Trim(sPos)))
 End_Function
 
 // ---------------------------------------------------------------

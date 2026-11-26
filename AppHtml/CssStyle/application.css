@@ -457,19 +457,22 @@ div.WebCon_TopLabel.WebCon_FloatEnabled > label.WebCon_Float {
     padding-right: 2px !important;
 }
 
-/* ---------- 21. Plazas de una liga con barra de ocupacion (Sprint 3) ----------
+/* ---------- 21. Plazas de una liga con barra de ocupacion (listas y cromo) ----------
    "3 / 20" + barra que se llena segun los equipos de la liga.
    Dorada normalmente, roja si la liga esta llena. */
-.WebList .Plazas {
+.WebList .Plazas,
+.Cromo .Plazas {
     display: inline-flex;
     align-items: center;
     gap: 10px;
     font-weight: bold;
 }
-.WebList .PlazasTexto {
+.WebList .PlazasTexto,
+.Cromo .PlazasTexto {
     min-width: 54px;
 }
-.WebList .PlazasBarra {
+.WebList .PlazasBarra,
+.Cromo .PlazasBarra {
     display: inline-block;
     width: 120px;
     height: 10px;
@@ -478,7 +481,8 @@ div.WebCon_TopLabel.WebCon_FloatEnabled > label.WebCon_Float {
     box-shadow: inset 0 0 0 1px #546e7a;
     overflow: hidden;
 }
-.WebList .PlazasRelleno {
+.WebList .PlazasRelleno,
+.Cromo .PlazasRelleno {
     display: block;
     height: 100%;
     border-radius: 5px;
@@ -486,7 +490,8 @@ div.WebCon_TopLabel.WebCon_FloatEnabled > label.WebCon_Float {
 }
 
 /* Liga llena: barra roja */
-.WebList .Plazas.Llena .PlazasRelleno {
+.WebList .Plazas.Llena .PlazasRelleno,
+.Cromo .Plazas.Llena .PlazasRelleno {
     background: #ef5350;
 }
 
@@ -565,7 +570,7 @@ div.WebCon_TopLabel.WebCon_FloatEnabled > label.WebCon_Float {
     letter-spacing: 0.5px;
 }
 
-/* Texto de ayuda para un jugador nuevo */
+/* Texto de ayuda para un registro nuevo */
 .Cromo .CromoAviso {
     margin-top: 8px;
     color: #90a4ae;
@@ -655,4 +660,83 @@ div.WebCon_TopLabel.WebCon_FloatEnabled > label.WebCon_Float {
     .Cromo .CromoMarca  { display: none; }
     .Cromo .CromoNumero { font-size: 40px; }
     .Cromo .CromoNombre { font-size: 20px; }
+}
+
+/* ---------- 24. Ajustes del cromo (Sprint 3) ---------- */
+/* La etiqueta de liga no hereda la altura de linea del dato */
+.Cromo .LigaChip {
+    line-height: normal;
+}
+
+/* Icono de entrenador en lugar del dorsal */
+.Cromo .CromoNumero.CromoIcono {
+    font-size: 56px;
+    text-shadow: none;
+}
+
+/* ---------- 25. Insignia grande del club en el cromo del equipo (Sprint 3) ---------- */
+.Cromo .Insignia.CromoInsigniaGrande {
+    width: 96px;
+    height: 96px;
+    border-width: 5px;
+    font-size: 26px;
+    letter-spacing: 1px;
+    margin-right: 0;
+    line-height: normal;
+    box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.25), 0 6px 16px rgba(0, 0, 0, 0.5);
+}
+
+@media (max-width: 600px) {
+    .Cromo .Insignia.CromoInsigniaGrande {
+        width: 60px;
+        height: 60px;
+        font-size: 16px;
+        border-width: 3px;
+    }
+}
+
+/* ---------- 26. Cromo de la liga (Sprint 3) ---------- */
+/* Franja dorada (una liga no tiene colores de club) */
+.Cromo .CromoFranja.oro {
+    background: linear-gradient(180deg, #fbc02d 0%, #f57f17 100%);
+}
+
+/* Bandera grande del pais a la derecha */
+.Cromo .CromoBanderaGrande {
+    width: 130px;
+    height: auto;
+    border-radius: 8px;
+    box-shadow: 0 0 0 3px #ffffff, 0 6px 16px rgba(0, 0, 0, 0.5);
+}
+
+@media (max-width: 600px) {
+    .Cromo .CromoBanderaGrande { width: 70px; }
+}
+
+/* ---------- 27. Cromo de la posicion (Sprint 3) ---------- */
+/* Franja azul marino (color de la tarjeta de Posiciones del Dashboard) */
+.Cromo .CromoFranja.posicion {
+    background: linear-gradient(180deg, #3949ab 0%, #1a237e 100%);
+}
+
+/* Icono de la posicion en grande dentro de un circulo dorado */
+.Cromo .CromoIconoPos {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    font-size: 56px;
+    line-height: 1;
+    background-color: rgba(255, 255, 255, 0.06);
+    box-shadow: 0 0 0 3px #fbc02d, 0 6px 16px rgba(0, 0, 0, 0.5);
+}
+
+@media (max-width: 600px) {
+    .Cromo .CromoIconoPos {
+        width: 64px;
+        height: 64px;
+        font-size: 34px;
+    }
 }

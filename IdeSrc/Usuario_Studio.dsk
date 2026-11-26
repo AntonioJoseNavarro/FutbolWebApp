@@ -29,13 +29,13 @@ CursorColumn=45
 TabIndex=1
 TabGroup=0
 [Window2]
-Filename=C:\DataFlexProjects\FutbolWebApp\AppSrc\ZoomJugador.wo
+Filename=C:\DataFlexProjects\FutbolWebApp\AppSrc\ZoomPosicion.wo
 ViewType=1
 Top=21
 Left=0
 Bottom=408
 Right=959
-CursorLine=324
+CursorLine=200
 CursorColumn=10
 TabIndex=2
 TabGroup=0
