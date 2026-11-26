@@ -353,3 +353,161 @@ div.WebCon_TopLabel.WebCon_FloatEnabled > label.WebCon_Float {
     color: #ef5350 !important;
     font-weight: bold !important;
 }
+
+/* ---------- 14. Equipo en las listas (Sprint 3) ----------
+   Texto "Sin equipo" para registros sin equipo asignado
+   (por ejemplo, un entrenador libre). */
+.WebList .SinEquipo {
+    color: #90a4ae;
+    font-style: italic;
+    font-weight: normal;
+}
+
+/* ---------- 15. Etiqueta de liga con bandera (Sprint 3) ----------
+   Liga dentro de una "pastilla" redondeada con la bandera de su pais. */
+.WebList .LigaChip {
+    display: inline-flex;
+    align-items: center;
+    padding: 4px 12px 4px 6px;
+    border-radius: 14px;
+    background-color: rgba(255, 255, 255, 0.08);
+    border: 1px solid #546e7a;
+    font-weight: bold;
+}
+.WebList .LigaChip img.Bandera {
+    margin-right: 8px;
+}
+
+/* ---------- 16. Cabecera de las listas (Sprint 3) ----------
+   Estructura de DataFlex: th.WebList_ColHead > div > div.WebList_ColCap
+   Titulos estilo marcador: fondo oscuro, texto dorado en mayusculas,
+   cabecera compacta y una linea dorada fina debajo. */
+.WebList .WebList_HeadWrp,
+.WebList .WebList_Head,
+.WebList .WebList_Head tr,
+.WebList .WebList_Head th.WebList_ColHead,
+.WebList .WebList_Head th.WebList_ColHead div {
+    background-color: #1c262b !important;
+    border: none !important;
+}
+.WebList .WebList_HeadWrp,
+.WebList .WebList_Head,
+.WebList .WebList_Head th.WebList_ColHead {
+    height: auto !important;
+}
+
+/* Linea dorada fina: en cada celda de cabecera (juntas forman una linea continua) */
+.WebList .WebList_Head th.WebList_ColHead {
+    border-bottom: 2px solid #fbc02d !important;
+}
+
+/* Texto de cada titulo: el tema le pone padding 10px 4px 6px, lo reducimos */
+.WebList .WebList_Head .WebList_ColCap {
+    color: #fbc02d !important;
+    font-weight: bold !important;
+    font-size: 12px !important;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    padding: 6px 4px 6px 4px !important;
+}
+
+/* ---------- 17. Entrenador en las listas (Sprint 3) ---------- */
+.WebList .EntrenadorChip {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-weight: bold;
+}
+
+/* ---------- 18. Nombre del equipo junto a la insignia (Sprint 3) ---------- */
+.WebList .EquipoNombre {
+    font-weight: bold;
+}
+
+/* ---------- 19. Franja de colores del equipo (Sprint 3) ----------
+   Barra vertical delante del nombre del jugador con los colores de su club. */
+.WebList .Franja {
+    display: inline-block;
+    width: 6px;
+    height: 28px;
+    border-radius: 3px;
+    vertical-align: middle;
+    margin-right: 10px;
+    box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.5);
+}
+.WebList .Franja.rm   { background: linear-gradient(180deg, #ffffff 70%, #fbc02d 70%); }
+.WebList .Franja.fcb  { background: linear-gradient(180deg, #a50044 50%, #004d98 50%); }
+.WebList .Franja.atm  { background: repeating-linear-gradient(180deg, #cb3524 0px, #cb3524 5px, #ffffff 5px, #ffffff 10px); }
+.WebList .Franja.mci  { background: #6cabdd; }
+.WebList .Franja.liv  { background: #c8102e; }
+.WebList .Franja.ars  { background: linear-gradient(180deg, #ef0107 70%, #ffffff 70%); }
+.WebList .Franja.otro { background: #607d8b; }
+
+/* ---------- 20. Titulo "ID" de la primera columna (Sprint 3) ----------
+   La columna ID es estrecha: sin espaciado entre letras y sin recortar. */
+.WebList .WebList_Head th.WebList_ColHead:first-child .WebList_ColCap {
+    letter-spacing: 0 !important;
+    overflow: visible !important;
+    padding-left: 2px !important;
+    padding-right: 2px !important;
+}
+
+/* ---------- 21. Plazas de una liga con barra de ocupacion (Sprint 3) ----------
+   "3 / 20" + barra que se llena segun los equipos de la liga.
+   Dorada normalmente, roja si la liga esta llena. */
+.WebList .Plazas {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: bold;
+}
+.WebList .PlazasTexto {
+    min-width: 54px;
+}
+.WebList .PlazasBarra {
+    display: inline-block;
+    width: 120px;
+    height: 10px;
+    border-radius: 5px;
+    background-color: rgba(255, 255, 255, 0.12);
+    box-shadow: inset 0 0 0 1px #546e7a;
+    overflow: hidden;
+}
+.WebList .PlazasRelleno {
+    display: block;
+    height: 100%;
+    border-radius: 5px;
+    background: linear-gradient(90deg, #fbc02d, #f9a825);
+}
+
+/* Liga llena: barra roja */
+.WebList .Plazas.Llena .PlazasRelleno {
+    background: #ef5350;
+}
+
+/* En la fila seleccionada (fondo dorado): barra verde oscuro para que se vea */
+.WebList .WebList_Body .WebList_Row.WebList_Selected .PlazasBarra {
+    background-color: rgba(0, 0, 0, 0.15);
+    box-shadow: inset 0 0 0 1px #1b5e20;
+}
+.WebList .WebList_Body .WebList_Row.WebList_Selected .PlazasRelleno {
+    background: #1b5e20;
+}
+
+/* ---------- 22. Filas vacias de las listas (Sprint 3) ----------
+   DataFlex rellena el hueco con filas "WebList_RowEmpty" (sin datos).
+   Fondo liso, sin lineas y sin efecto al pasar el raton. */
+.WebList .WebList_Body .WebList_Row.WebList_RowEmpty,
+.WebList .WebList_Body .WebList_Row.WebList_RowEmpty.WebList_RowOdd,
+.WebList .WebList_Body .WebList_Row.WebList_RowEmpty:hover {
+    background-color: #263238 !important;
+    box-shadow: none !important;
+    transform: none !important;
+    border-left: none !important;
+    cursor: default !important;
+}
+.WebList .WebList_Body .WebList_Row.WebList_RowEmpty td,
+.WebList .WebList_Body .WebList_Row.WebList_RowEmpty td:first-child {
+    border-bottom: none !important;
+    border-right: none !important;
+}

@@ -38,19 +38,20 @@ Object oSelectEquipo is a cWebView
         Set psCSSClass to "MobileList"
         Set pbServerOnRowClick to True
         Set pbFillHeight to True
-        Set pbShowHeader to False
+        // Sprint 3: cabecera con los titulos de las columnas (estilo marcador en el CSS)
+        Set pbShowHeader to True
         Set piSortColumn to 0
 
         Object oequipoID is a cWebColumn
             Entry_Item equipo.ID
-            Set psCaption to "equipo.ID"
-            Set piWidth to 100
+            Set psCaption to "ID"
+            Set piWidth to 120
         End_Object 
 
         // Nombre con insignia del equipo (columna calculada con HTML)
         Object oequipoNombre is a cWebColumn
-            Set psCaption to "equipo.Nombre"
-            Set piWidth to 1201
+            Set psCaption to "Equipo"
+            Set piWidth to 1000
             Set pbEnabled to False
             Set pbAllowHtml to True
             Set pbValueAsTooltip to False
@@ -60,14 +61,35 @@ Object oSelectEquipo is a cWebView
             End_Procedure
         End_Object 
 
+        // Liga en etiqueta con la bandera de su pais (columna calculada con HTML)
         Object oligaNombre is a cWebColumn
-            Entry_Item liga.Nombre
-            Set psCaption to "liga.Nombre"
-            Set piWidth to 1000
+            Set psCaption to "Liga"
+            Set piWidth to 800
+            Set pbEnabled to False
+            Set pbAllowHtml to True
+            Set pbValueAsTooltip to False
+
+            Procedure OnSetCalculatedValue String ByRef sValue
+                Move (LigaHtml(liga.Pais, liga.Nombre)) to sValue
+            End_Procedure
+        End_Object 
+
+        // Sprint 3: entrenador del equipo (entrenador es hijo de equipo:
+        // se busca por EquipoID, el relate no lo trae)
+        Object oEntrenador is a cWebColumn
+            Set psCaption to "Entrenador"
+            Set piWidth to 900
+            Set pbEnabled to False
+            Set pbAllowHtml to True
+            Set pbValueAsTooltip to False
+
+            Procedure OnSetCalculatedValue String ByRef sValue
+                Move (EntrenadorHtml(equipo.ID)) to sValue
+            End_Procedure
         End_Object 
 
         Object oDetailButton is a cWebColumnButton
-            Set psCaption to "btn"
+            Set psCaption to ""
             Set piWidth to 45
             Set pbFixedWidth to True
             Set pbResizable to False

@@ -3,11 +3,14 @@
 // Se compara por las primeras letras (sin tildes) para que funcione
 // igual sea cual sea la codificacion del archivo.
 
+// Tabla que se consulta en EntrenadorHtml (solo lectura)
+Open entrenador
+
 // ---------------------------------------------------------------
-// Bandera + texto (nacionalidades y paises).
-// Imagenes de banderas de flagcdn.com
+// Codigo de bandera (flagcdn.com) a partir de una nacionalidad o pais.
+// Devuelve "" si no se reconoce.
 // ---------------------------------------------------------------
-Function BanderaHtml Global String sNac Returns String
+Function CodigoBandera Global String sNac Returns String
     String sTexto sCod
 
     Move (Trim(sNac)) to sTexto
@@ -74,6 +77,19 @@ Function BanderaHtml Global String sNac Returns String
             Case Break
     Case End
 
+    Function_Return sCod
+End_Function
+
+// ---------------------------------------------------------------
+// Bandera + texto (nacionalidades y paises).
+// Imagenes de banderas de flagcdn.com
+// ---------------------------------------------------------------
+Function BanderaHtml Global String sNac Returns String
+    String sTexto sCod
+
+    Move (Trim(sNac)) to sTexto
+    Move (CodigoBandera(sTexto)) to sCod
+
     If (sCod = "") Begin
         Function_Return (htmlEncode(sTexto))
     End
@@ -82,13 +98,37 @@ Function BanderaHtml Global String sNac Returns String
 End_Function
 
 // ---------------------------------------------------------------
+// Sprint 3: etiqueta de liga con la bandera de su pais.
+// Ejemplo: [bandera de Espana] LaLiga
+// ---------------------------------------------------------------
+Function LigaHtml Global String sPais String sLiga Returns String
+    String sCod sBandera
+
+    // Sin liga (por ejemplo, entrenador sin equipo)
+    If (Trim(sLiga) = "") Begin
+        Function_Return '<span class="SinEquipo">-</span>'
+    End
+
+    Move (CodigoBandera(sPais)) to sCod
+    Move "" to sBandera
+
+    If (sCod <> "") Begin
+        Move ('<img class="Bandera" src="https://flagcdn.com/w40/' + sCod + '.png" alt="">') to sBandera
+    End
+
+    Function_Return ('<span class="LigaChip">' + sBandera + htmlEncode(Trim(sLiga)) + '</span>')
+End_Function
+
+// ---------------------------------------------------------------
 // Icono de posicion + texto
+// Sprint 3: las posiciones no reconocidas llevan una bota como icono
 // ---------------------------------------------------------------
 Function PosicionHtml Global String sPos Returns String
     String sTexto sIcono
 
     Move (Trim(sPos)) to sTexto
-    Move "" to sIcono
+    // Icono por defecto (bota) para posiciones no reconocidas
+    Move "&#128095;" to sIcono
 
     Case Begin
         Case (Left(sTexto, 4) = "Port")
@@ -105,11 +145,42 @@ Function PosicionHtml Global String sPos Returns String
             Case Break
     Case End
 
-    If (sIcono = "") Begin
-        Function_Return (htmlEncode(sTexto))
-    End
-
     Function_Return ('<span class="IconoPos">' + sIcono + '</span> ' + htmlEncode(sTexto))
+End_Function
+
+// ---------------------------------------------------------------
+// Sprint 3: clase CSS con los colores de cada club.
+// La usan la insignia (EquipoHtml) y la franja (JugadorHtml).
+// Devuelve "otro" para equipos sin colores definidos.
+// ---------------------------------------------------------------
+Function ClaseEquipo Global String sEquipo Returns String
+    String sTexto sClase
+
+    Move (Trim(sEquipo)) to sTexto
+    Move "otro" to sClase
+
+    Case Begin
+        Case (Left(sTexto, 4) = "Real")
+            Move "rm" to sClase
+            Case Break
+        Case (Left(sTexto, 4) = "FC B")
+            Move "fcb" to sClase
+            Case Break
+        Case (Left(sTexto, 3) = "Atl")
+            Move "atm" to sClase
+            Case Break
+        Case (Left(sTexto, 4) = "Manc")
+            Move "mci" to sClase
+            Case Break
+        Case (Left(sTexto, 4) = "Live")
+            Move "liv" to sClase
+            Case Break
+        Case (Left(sTexto, 4) = "Arse")
+            Move "ars" to sClase
+            Case Break
+    Case End
+
+    Function_Return sClase
 End_Function
 
 // ---------------------------------------------------------------
@@ -120,41 +191,95 @@ Function EquipoHtml Global String sEquipo Returns String
     String sTexto sIni sClase
 
     Move (Trim(sEquipo)) to sTexto
-    Move "" to sIni
-    Move "" to sClase
 
-    Case Begin
-        Case (Left(sTexto, 4) = "Real")
-            Move "RM" to sIni
-            Move "rm" to sClase
-            Case Break
-        Case (Left(sTexto, 4) = "FC B")
-            Move "FCB" to sIni
-            Move "fcb" to sClase
-            Case Break
-        Case (Left(sTexto, 3) = "Atl")
-            Move "ATM" to sIni
-            Move "atm" to sClase
-            Case Break
-        Case (Left(sTexto, 4) = "Manc")
-            Move "MCI" to sIni
-            Move "mci" to sClase
-            Case Break
-        Case (Left(sTexto, 4) = "Live")
-            Move "LIV" to sIni
-            Move "liv" to sClase
-            Case Break
-        Case (Left(sTexto, 4) = "Arse")
-            Move "ARS" to sIni
-            Move "ars" to sClase
-            Case Break
-    Case End
-
-    // Equipo nuevo sin insignia definida: insignia gris con la inicial
-    If (sIni = "") Begin
-        Move (Uppercase(Left(sTexto, 1))) to sIni
-        Move "otro" to sClase
+    // Sprint 3: sin equipo asignado (por ejemplo, un entrenador libre)
+    If (sTexto = "") Begin
+        Function_Return '<span class="SinEquipo">Sin equipo</span>'
     End
 
-    Function_Return ('<span class="Insignia ' + sClase + '">' + sIni + '</span> ' + htmlEncode(sTexto))
+    Move (ClaseEquipo(sTexto)) to sClase
+
+    // Las iniciales coinciden con la clase (rm -> RM, fcb -> FCB...)
+    // Equipo nuevo sin colores definidos: insignia gris con la inicial
+    If (sClase = "otro") Begin
+        Move (Uppercase(Left(sTexto, 1))) to sIni
+    End
+    Else Begin
+        Move (Uppercase(sClase)) to sIni
+    End
+
+    Function_Return ('<span class="Insignia ' + sClase + '">' + sIni + '</span> <span class="EquipoNombre">' + htmlEncode(sTexto) + '</span>')
+End_Function
+
+// ---------------------------------------------------------------
+// Sprint 3: nombre completo de una persona (jugador o entrenador)
+// con una franja vertical de los colores de su equipo delante.
+// ---------------------------------------------------------------
+Function JugadorHtml Global String sNombre String sApellido String sEquipo Returns String
+    String sClase sCompleto
+
+    Move (ClaseEquipo(sEquipo)) to sClase
+    Move (Trim(sNombre) + " " + Trim(sApellido)) to sCompleto
+
+    Function_Return ('<span class="Franja ' + sClase + '"></span>' + htmlEncode(sCompleto))
+End_Function
+
+// ---------------------------------------------------------------
+// Sprint 3: entrenador de un equipo.
+// entrenador es HIJO de equipo, asi que el relate de los DD no lo trae:
+// se busca directamente (solo lectura) por el Index 3 (uqEntrenadorEquipo),
+// que es unico por EquipoID.
+// ---------------------------------------------------------------
+Function EntrenadorHtml Global Integer iEquipoID Returns String
+    String sNombre
+
+    If (iEquipoID = 0) Begin
+        Function_Return '<span class="SinEquipo">-</span>'
+    End
+
+    Clear entrenador
+    Move iEquipoID to entrenador.EquipoID
+    Find EQ entrenador by Index.3
+
+    If (Found) Begin
+        Move (Trim(entrenador.Nombre) + " " + Trim(entrenador.Apellido)) to sNombre
+        Function_Return ('<span class="EntrenadorChip">&#128203; ' + htmlEncode(sNombre) + '</span>')
+    End
+
+    Function_Return '<span class="SinEquipo">Sin entrenador</span>'
+End_Function
+
+// ---------------------------------------------------------------
+// Sprint 3: plazas ocupadas de una liga ("3 / 20") con barra de ocupacion.
+// La barra se pinta de rojo cuando la liga esta llena.
+// ---------------------------------------------------------------
+Function PlazasHtml Global Integer iEquipos Integer iMax Returns String
+    Integer iPorc
+    String sEquipos sMax sPorc sClase
+
+    // Porcentaje de ocupacion (0-100)
+    If (iMax > 0) Begin
+        Move (iEquipos * 100 / iMax) to iPorc
+    End
+    Else Begin
+        Move 0 to iPorc
+    End
+    If (iPorc > 100) Begin
+        Move 100 to iPorc
+    End
+
+    // Liga llena: clase extra para pintar la barra de rojo
+    Move "" to sClase
+    If ((iMax > 0) and (iEquipos >= iMax)) Begin
+        Move " Llena" to sClase
+    End
+
+    Move iEquipos to sEquipos
+    Move iMax     to sMax
+    Move iPorc    to sPorc
+
+    Function_Return ('<span class="Plazas' + sClase + '">' + ;
+                     '<span class="PlazasTexto">' + sEquipos + ' / ' + sMax + '</span>' + ;
+                     '<span class="PlazasBarra"><span class="PlazasRelleno" style="width:' + sPorc + '%"></span></span>' + ;
+                     '</span>')
 End_Function
