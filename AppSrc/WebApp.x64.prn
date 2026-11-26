@@ -1,5 +1,5 @@
 Compiling Program: C:\DataFlexProjects\FutbolWebApp\AppSrc\WebApp.src
-Memory Available: 3919196160
+Memory Available: 3955998720
 1>Use AllWebAppClasses.pkg
 Using pre-compiled package ALLWEBAPPCLASSES.PKG
 Including file: AllWebAppClasses.x64.pkd    (C:\Program Files\DataFlex 25.0\Pkg\AllWebAppClasses.x64.pkd)
@@ -2078,11 +2078,12 @@ Including file: cjugadorposicionDataDictionary.dd    (C:\DataFlexProjects\Futbol
 37872>>>        End_Object 
 37873>>>    End_Object 
 37874>>>
+37874>>>    // Sprint 3: textos de los botones en espanol (misma posicion que antes)
 37874>>>    Object oActionGroup is a cWebMenuGroup
 37876>>>
 37876>>>        Object oSaveBtn is a cWebMenuItem
 37878>>>            Set psCSSClass to "WebSaveMenuItem"
-37879>>>            Set psCaption to "Save"
+37879>>>            Set psCaption to "Guardar"
 37880>>>
 37880>>>            Procedure OnClick
 37883>>>                Send Request_Save
@@ -2092,7 +2093,7 @@ Including file: cjugadorposicionDataDictionary.dd    (C:\DataFlexProjects\Futbol
 37886>>>
 37886>>>        Object oEditBtn is a cWebMenuItem
 37888>>>            Set psCSSClass to "WebEditMenuItem"
-37889>>>            Set psCaption to "Edit"
+37889>>>            Set psCaption to "Editar"
 37890>>>            Procedure OnClick
 37893>>>                Send ChangeEditMode True
 37894>>>                Send SetActionButtons
@@ -2102,7 +2103,7 @@ Including file: cjugadorposicionDataDictionary.dd    (C:\DataFlexProjects\Futbol
 37897>>>
 37897>>>        Object oDeleteBtn is a cWebMenuItem
 37899>>>            Set psCSSClass to "WebDeleteMenuItem"
-37900>>>            Set psCaption to "Delete"
+37900>>>            Set psCaption to "Eliminar"
 37901>>>            Set peActionDisplay to adMenu
 37902>>>
 37902>>>            Procedure OnClick
@@ -2113,7 +2114,7 @@ Including file: cjugadorposicionDataDictionary.dd    (C:\DataFlexProjects\Futbol
 37908>>>
 37908>>>        Object oCancelChangesBtn is a cWebMenuItem
 37910>>>            Set psCSSClass to "WebIcon_Refresh"
-37911>>>            Set psCaption to "Clear Changes"
+37911>>>            Set psCaption to "Deshacer cambios"
 37912>>>            Set peActionDisplay to adMenu
 37913>>>            Procedure OnClick
 37916>>>                Send RefreshRecord
@@ -2318,11 +2319,12 @@ Including file: SelectPosicion.wo    (C:\DataFlexProjects\FutbolWebApp\AppSrc\Se
 38069>>>
 38069>>>    End_Object 
 38070>>>
+38070>>>    // Sprint 3: textos de los botones en espanol (misma posicion que antes)
 38070>>>    Object oActionGroup is a cWebMenuGroup
 38072>>>
 38072>>>        Object oSearch is a cWebMenuItem
 38074>>>            Set psCSSClass to "WebPromptMenuItem"
-38075>>>            Set psCaption to "Search"
+38075>>>            Set psCaption to "Buscar"
 38076>>>
 38076>>>            Procedure OnClick
 38079>>>                Send Search of oList
@@ -2332,7 +2334,7 @@ Including file: SelectPosicion.wo    (C:\DataFlexProjects\FutbolWebApp\AppSrc\Se
 38082>>>
 38082>>>        Object oNewButton is a cWebMenuItem
 38084>>>            Set psCSSClass to "WebClearMenuItem"
-38085>>>            Set psCaption to "New"
+38085>>>            Set psCaption to "Nuevo"
 38086>>>
 38086>>>            WebRegisterPath ntNavigateForward oZoomPosicion
 38092>>>
@@ -2565,11 +2567,12 @@ Including file: cequipoDataDictionary.dd    (C:\DataFlexProjects\FutbolWebApp\DD
 38273>>>        End_Object
 38274>>>    End_Object 
 38275>>>
+38275>>>    // Sprint 3: textos de los botones en espanol (misma posicion que antes)
 38275>>>    Object oActionGroup is a cWebMenuGroup
 38277>>>
 38277>>>        Object oSaveBtn is a cWebMenuItem
 38279>>>            Set psCSSClass to "WebSaveMenuItem"
-38280>>>            Set psCaption to "Save"
+38280>>>            Set psCaption to "Guardar"
 38281>>>
 38281>>>            Procedure OnClick
 38284>>>                Send Request_Save
@@ -2579,7 +2582,7 @@ Including file: cequipoDataDictionary.dd    (C:\DataFlexProjects\FutbolWebApp\DD
 38287>>>
 38287>>>        Object oEditBtn is a cWebMenuItem
 38289>>>            Set psCSSClass to "WebEditMenuItem"
-38290>>>            Set psCaption to "Edit"
+38290>>>            Set psCaption to "Editar"
 38291>>>            Procedure OnClick
 38294>>>                Send ChangeEditMode True
 38295>>>                Send SetActionButtons
@@ -2589,7 +2592,7 @@ Including file: cequipoDataDictionary.dd    (C:\DataFlexProjects\FutbolWebApp\DD
 38298>>>
 38298>>>        Object oDeleteBtn is a cWebMenuItem
 38300>>>            Set psCSSClass to "WebDeleteMenuItem"
-38301>>>            Set psCaption to "Delete"
+38301>>>            Set psCaption to "Eliminar"
 38302>>>            Set peActionDisplay to adMenu
 38303>>>
 38303>>>            Procedure OnClick
@@ -2600,7 +2603,7 @@ Including file: cequipoDataDictionary.dd    (C:\DataFlexProjects\FutbolWebApp\DD
 38309>>>
 38309>>>        Object oCancelChangesBtn is a cWebMenuItem
 38311>>>            Set psCSSClass to "WebIcon_Refresh"
-38312>>>            Set psCaption to "Clear Changes"
+38312>>>            Set psCaption to "Deshacer cambios"
 38313>>>            Set peActionDisplay to adMenu
 38314>>>            Procedure OnClick
 38317>>>                Send RefreshRecord
@@ -2844,11 +2847,12 @@ Including file: SelectLiga.wo    (C:\DataFlexProjects\FutbolWebApp\AppSrc\Select
 38503>>>
 38503>>>    End_Object 
 38504>>>
+38504>>>    // Sprint 3: textos de los botones en espanol (misma posicion que antes)
 38504>>>    Object oActionGroup is a cWebMenuGroup
 38506>>>
 38506>>>        Object oSearch is a cWebMenuItem
 38508>>>            Set psCSSClass to "WebPromptMenuItem"
-38509>>>            Set psCaption to "Search"
+38509>>>            Set psCaption to "Buscar"
 38510>>>
 38510>>>            Procedure OnClick
 38513>>>                Send Search of oList
@@ -2858,7 +2862,7 @@ Including file: SelectLiga.wo    (C:\DataFlexProjects\FutbolWebApp\AppSrc\Select
 38516>>>
 38516>>>        Object oNewButton is a cWebMenuItem
 38518>>>            Set psCSSClass to "WebClearMenuItem"
-38519>>>            Set psCaption to "New"
+38519>>>            Set psCaption to "Nuevo"
 38520>>>
 38520>>>            WebRegisterPath ntNavigateForward oZoomLiga
 38526>>>
@@ -3012,11 +3016,12 @@ Including file: ZoomEquipo.wo    (C:\DataFlexProjects\FutbolWebApp\AppSrc\ZoomEq
 38655>>>        End_Object 
 38656>>>    End_Object 
 38657>>>
+38657>>>    // Sprint 3: textos de los botones en espanol (misma posicion que antes)
 38657>>>    Object oActionGroup is a cWebMenuGroup
 38659>>>
 38659>>>        Object oSaveBtn is a cWebMenuItem
 38661>>>            Set psCSSClass to "WebSaveMenuItem"
-38662>>>            Set psCaption to "Save"
+38662>>>            Set psCaption to "Guardar"
 38663>>>
 38663>>>            Procedure OnClick
 38666>>>                Send Request_Save
@@ -3026,7 +3031,7 @@ Including file: ZoomEquipo.wo    (C:\DataFlexProjects\FutbolWebApp\AppSrc\ZoomEq
 38669>>>
 38669>>>        Object oEditBtn is a cWebMenuItem
 38671>>>            Set psCSSClass to "WebEditMenuItem"
-38672>>>            Set psCaption to "Edit"
+38672>>>            Set psCaption to "Editar"
 38673>>>            Procedure OnClick
 38676>>>                Send ChangeEditMode True
 38677>>>                Send SetActionButtons
@@ -3036,7 +3041,7 @@ Including file: ZoomEquipo.wo    (C:\DataFlexProjects\FutbolWebApp\AppSrc\ZoomEq
 38680>>>
 38680>>>        Object oDeleteBtn is a cWebMenuItem
 38682>>>            Set psCSSClass to "WebDeleteMenuItem"
-38683>>>            Set psCaption to "Delete"
+38683>>>            Set psCaption to "Eliminar"
 38684>>>            Set peActionDisplay to adMenu
 38685>>>
 38685>>>            Procedure OnClick
@@ -3047,7 +3052,7 @@ Including file: ZoomEquipo.wo    (C:\DataFlexProjects\FutbolWebApp\AppSrc\ZoomEq
 38691>>>
 38691>>>        Object oCancelChangesBtn is a cWebMenuItem
 38693>>>            Set psCSSClass to "WebIcon_Refresh"
-38694>>>            Set psCaption to "Clear Changes"
+38694>>>            Set psCaption to "Deshacer cambios"
 38695>>>            Set peActionDisplay to adMenu
 38696>>>            Procedure OnClick
 38699>>>                Send RefreshRecord
@@ -3309,11 +3314,12 @@ Including file: SelectEquipo.wo    (C:\DataFlexProjects\FutbolWebApp\AppSrc\Sele
 38895>>>
 38895>>>    End_Object 
 38896>>>
+38896>>>    // Sprint 3: textos de los botones en espanol (misma posicion que antes)
 38896>>>    Object oActionGroup is a cWebMenuGroup
 38898>>>
 38898>>>        Object oSearch is a cWebMenuItem
 38900>>>            Set psCSSClass to "WebPromptMenuItem"
-38901>>>            Set psCaption to "Search"
+38901>>>            Set psCaption to "Buscar"
 38902>>>
 38902>>>            Procedure OnClick
 38905>>>                Send Search of oList
@@ -3323,7 +3329,7 @@ Including file: SelectEquipo.wo    (C:\DataFlexProjects\FutbolWebApp\AppSrc\Sele
 38908>>>
 38908>>>        Object oNewButton is a cWebMenuItem
 38910>>>            Set psCSSClass to "WebClearMenuItem"
-38911>>>            Set psCaption to "New"
+38911>>>            Set psCaption to "Nuevo"
 38912>>>
 38912>>>            WebRegisterPath ntNavigateForward oZoomEquipo
 38918>>>
@@ -3527,11 +3533,12 @@ Including file: centrenadorDataDictionary.dd    (C:\DataFlexProjects\FutbolWebAp
 39091>>>        End_Object 
 39092>>>    End_Object 
 39093>>>
+39093>>>    // Sprint 3: textos de los botones en espanol (misma posicion que antes)
 39093>>>    Object oActionGroup is a cWebMenuGroup
 39095>>>
 39095>>>        Object oSaveBtn is a cWebMenuItem
 39097>>>            Set psCSSClass to "WebSaveMenuItem"
-39098>>>            Set psCaption to "Save"
+39098>>>            Set psCaption to "Guardar"
 39099>>>
 39099>>>            Procedure OnClick
 39102>>>                Send Request_Save
@@ -3541,7 +3548,7 @@ Including file: centrenadorDataDictionary.dd    (C:\DataFlexProjects\FutbolWebAp
 39105>>>
 39105>>>        Object oEditBtn is a cWebMenuItem
 39107>>>            Set psCSSClass to "WebEditMenuItem"
-39108>>>            Set psCaption to "Edit"
+39108>>>            Set psCaption to "Editar"
 39109>>>            Procedure OnClick
 39112>>>                Send ChangeEditMode True
 39113>>>                Send SetActionButtons
@@ -3551,7 +3558,7 @@ Including file: centrenadorDataDictionary.dd    (C:\DataFlexProjects\FutbolWebAp
 39116>>>
 39116>>>        Object oDeleteBtn is a cWebMenuItem
 39118>>>            Set psCSSClass to "WebDeleteMenuItem"
-39119>>>            Set psCaption to "Delete"
+39119>>>            Set psCaption to "Eliminar"
 39120>>>            Set peActionDisplay to adMenu
 39121>>>
 39121>>>            Procedure OnClick
@@ -3562,7 +3569,7 @@ Including file: centrenadorDataDictionary.dd    (C:\DataFlexProjects\FutbolWebAp
 39127>>>
 39127>>>        Object oCancelChangesBtn is a cWebMenuItem
 39129>>>            Set psCSSClass to "WebIcon_Refresh"
-39130>>>            Set psCaption to "Clear Changes"
+39130>>>            Set psCaption to "Deshacer cambios"
 39131>>>            Set peActionDisplay to adMenu
 39132>>>            Procedure OnClick
 39135>>>                Send RefreshRecord
@@ -3841,11 +3848,12 @@ Including file: SelectEntrenador.wo    (C:\DataFlexProjects\FutbolWebApp\AppSrc\
 39349>>>
 39349>>>    End_Object 
 39350>>>
+39350>>>    // Sprint 3: textos de los botones en espanol (misma posicion que antes)
 39350>>>    Object oActionGroup is a cWebMenuGroup
 39352>>>
 39352>>>        Object oSearch is a cWebMenuItem
 39354>>>            Set psCSSClass to "WebPromptMenuItem"
-39355>>>            Set psCaption to "Search"
+39355>>>            Set psCaption to "Buscar"
 39356>>>
 39356>>>            Procedure OnClick
 39359>>>                Send Search of oList
@@ -3855,7 +3863,7 @@ Including file: SelectEntrenador.wo    (C:\DataFlexProjects\FutbolWebApp\AppSrc\
 39362>>>
 39362>>>        Object oNewButton is a cWebMenuItem
 39364>>>            Set psCSSClass to "WebClearMenuItem"
-39365>>>            Set psCaption to "New"
+39365>>>            Set psCaption to "Nuevo"
 39366>>>
 39366>>>            WebRegisterPath ntNavigateForward oZoomEntrenador
 39372>>>
@@ -4083,11 +4091,12 @@ Including file: cjugadorDataDictionary.dd    (C:\DataFlexProjects\FutbolWebApp\D
 39566>>>        End_Object
 39567>>>    End_Object 
 39568>>>
+39568>>>    // Sprint 3: textos de los botones en espanol (misma posicion que antes)
 39568>>>    Object oActionGroup is a cWebMenuGroup
 39570>>>
 39570>>>        Object oSaveBtn is a cWebMenuItem
 39572>>>            Set psCSSClass to "WebSaveMenuItem"
-39573>>>            Set psCaption to "Save"
+39573>>>            Set psCaption to "Guardar"
 39574>>>
 39574>>>            Procedure OnClick
 39577>>>                Send Request_Save
@@ -4097,7 +4106,7 @@ Including file: cjugadorDataDictionary.dd    (C:\DataFlexProjects\FutbolWebApp\D
 39580>>>
 39580>>>        Object oEditBtn is a cWebMenuItem
 39582>>>            Set psCSSClass to "WebEditMenuItem"
-39583>>>            Set psCaption to "Edit"
+39583>>>            Set psCaption to "Editar"
 39584>>>            Procedure OnClick
 39587>>>                Send ChangeEditMode True
 39588>>>                Send SetActionButtons
@@ -4107,7 +4116,7 @@ Including file: cjugadorDataDictionary.dd    (C:\DataFlexProjects\FutbolWebApp\D
 39591>>>
 39591>>>        Object oDeleteBtn is a cWebMenuItem
 39593>>>            Set psCSSClass to "WebDeleteMenuItem"
-39594>>>            Set psCaption to "Delete"
+39594>>>            Set psCaption to "Eliminar"
 39595>>>            Set peActionDisplay to adMenu
 39596>>>
 39596>>>            Procedure OnClick
@@ -4118,7 +4127,7 @@ Including file: cjugadorDataDictionary.dd    (C:\DataFlexProjects\FutbolWebApp\D
 39602>>>
 39602>>>        Object oCancelChangesBtn is a cWebMenuItem
 39604>>>            Set psCSSClass to "WebIcon_Refresh"
-39605>>>            Set psCaption to "Clear Changes"
+39605>>>            Set psCaption to "Deshacer cambios"
 39606>>>            Set peActionDisplay to adMenu
 39607>>>            Procedure OnClick
 39610>>>                Send RefreshRecord
@@ -4422,11 +4431,12 @@ Including file: SelectJugador.wo    (C:\DataFlexProjects\FutbolWebApp\AppSrc\Sel
 39844>>>
 39844>>>    End_Object 
 39845>>>
+39845>>>    // Sprint 3: textos de los botones en espanol (misma posicion que antes)
 39845>>>    Object oActionGroup is a cWebMenuGroup
 39847>>>
 39847>>>        Object oSearch is a cWebMenuItem
 39849>>>            Set psCSSClass to "WebPromptMenuItem"
-39850>>>            Set psCaption to "Search"
+39850>>>            Set psCaption to "Buscar"
 39851>>>
 39851>>>            Procedure OnClick
 39854>>>                Send Search of oList
@@ -4436,7 +4446,7 @@ Including file: SelectJugador.wo    (C:\DataFlexProjects\FutbolWebApp\AppSrc\Sel
 39857>>>
 39857>>>        Object oNewButton is a cWebMenuItem
 39859>>>            Set psCSSClass to "WebClearMenuItem"
-39860>>>            Set psCaption to "New"
+39860>>>            Set psCaption to "Nuevo"
 39861>>>
 39861>>>            WebRegisterPath ntNavigateForward oZoomJugador
 39867>>>
@@ -4489,7 +4499,7 @@ Including file: SelectJugador.wo    (C:\DataFlexProjects\FutbolWebApp\AppSrc\Sel
 39902>Send StartWebApp of oWebApp
 39903>
 Summary
-Memory Available: 3914784768
+Memory Available: 3944845312
 Total Warnings : 0
 Total Errors   : 0
 Total Symbols  : 25833
@@ -4497,6 +4507,6 @@ Total Resources: 0
 Total Commands : 39902
 Total Windows  : 0
 Total Pages    : 0
-Static Data    : 497617
+Static Data    : 497675
 Message area   : 267633
-Total Blocks   : 17621
+Total Blocks   : 17622
