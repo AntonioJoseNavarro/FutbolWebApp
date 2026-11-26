@@ -7,8 +7,13 @@ Use cWebPanel.pkg
 Use cWebMenuGroup.pkg
 Use cWebMenuItem.pkg
 Use cWebForm.pkg
+Use cWebHtmlBox.pkg
+// Funciones HTML (icono de posicion)
+Use Banderas.pkg
 
 Use cposicionDataDictionary.dd
+// Sprint 3: tabla hija, necesaria para poder borrar posiciones
+Use cjugadorposicionDataDictionary.dd
 
 Object oZoomPosicion is a cWebView
     Set piColumnCount to 12
@@ -20,7 +25,22 @@ Object oZoomPosicion is a cWebView
     Set piMaxWidth to 1024
 
     Object oposicion_DD is a cposicionDataDictionary
+        // Sprint 3: no borrar en cascada. Si algun jugador tiene esta
+        // posicion, el borrado se rechaza en lugar de borrar sus asignaciones.
+        Set Cascade_Delete_State to False
+
+        // Sprint 3: al cargar otra posicion se redibuja el cromo de la cabecera
+        Procedure OnNewCurrentRecord RowID riOldRowId RowID riNewRowId
+            Forward Send OnNewCurrentRecord riOldRowId riNewRowId
+            Send ActualizarCabecera
+        End_Procedure
     End_Object 
+
+    // Sprint 3: hijo de posicion (jugadores que tienen cada posicion).
+    // El DD lo necesita para comprobar si la posicion se usa antes de borrarla.
+    Object ojugadorposicion_DD is a cjugadorposicionDataDictionary
+        Set DDO_Server to oposicion_DD
+    End_Object
 
     Set Main_DD to oposicion_DD
     Set Server  to oposicion_DD
@@ -29,6 +49,12 @@ Object oZoomPosicion is a cWebView
     Object oWebMainPanel is a cWebPanel
         Set piColumnCount to 12
         WebSetResponsive piColumnCount rmMobile to 4
+
+        // Sprint 3: cabecera tipo "cromo" de la posicion (se rellena en ActualizarCabecera)
+        Object oCabecera is a cWebHtmlBox
+            Set piColumnSpan to 0
+            Set psHtml to ''
+        End_Object
 
         Object oposicionID is a cWebForm
             Entry_Item posicion.ID
@@ -47,11 +73,12 @@ Object oZoomPosicion is a cWebView
         End_Object 
     End_Object 
 
+    // Sprint 3: textos de los botones en espanol (misma posicion que antes)
     Object oActionGroup is a cWebMenuGroup
 
         Object oSaveBtn is a cWebMenuItem
             Set psCSSClass to "WebSaveMenuItem"
-            Set psCaption to "Save"
+            Set psCaption to "Guardar"
 
             Procedure OnClick
                 Send Request_Save
@@ -61,7 +88,7 @@ Object oZoomPosicion is a cWebView
 
         Object oEditBtn is a cWebMenuItem
             Set psCSSClass to "WebEditMenuItem"
-            Set psCaption to "Edit"
+            Set psCaption to "Editar"
             Procedure OnClick
                 Send ChangeEditMode True
                 Send SetActionButtons
@@ -71,7 +98,7 @@ Object oZoomPosicion is a cWebView
 
         Object oDeleteBtn is a cWebMenuItem
             Set psCSSClass to "WebDeleteMenuItem"
-            Set psCaption to "Delete"
+            Set psCaption to "Eliminar"
             Set peActionDisplay to adMenu
 
             Procedure OnClick
@@ -82,7 +109,7 @@ Object oZoomPosicion is a cWebView
 
         Object oCancelChangesBtn is a cWebMenuItem
             Set psCSSClass to "WebIcon_Refresh"
-            Set psCaption to "Clear Changes"
+            Set psCaption to "Deshacer cambios"
             Set peActionDisplay to adMenu
             Procedure OnClick
                 Send RefreshRecord
@@ -90,6 +117,40 @@ Object oZoomPosicion is a cWebView
 
         End_Object 
     End_Object 
+
+    // Sprint 3: construye el cromo de la cabecera con los datos de la posicion.
+    // Estructura: franja azul | nombre + tipo | icono grande en un circulo
+    Procedure ActualizarCabecera
+        String sPos sTipo sHtml
+
+        Get Field_Current_Value of oposicion_DD Field posicion.Nombre to sPos
+        Move (Trim(sPos)) to sPos
+
+        // Posicion nueva (sin nombre todavia)
+        If (sPos = "") Begin
+            Move ('<div class="Cromo"><div class="CromoFranja otro"></div>' + ;
+                  '<div class="CromoInfo"><div class="CromoNombre">Nueva posici&oacute;n</div>' + ;
+                  '<div class="CromoAviso">Escribe el nombre de la posici&oacute;n</div></div></div>') to sHtml
+        End
+        Else Begin
+            // Tipo: oficial (las 4 del terreno de juego) o personalizada
+            Move "Personalizada" to sTipo
+            If ((Left(sPos, 4) = "Port") or (Left(sPos, 4) = "Defe") or (Left(sPos, 4) = "Cent") or (Left(sPos, 4) = "Dela")) Begin
+                Move "Oficial" to sTipo
+            End
+
+            Move ('<div class="Cromo"><div class="CromoFranja posicion"></div>' + ;
+                  '<div class="CromoInfo">' + ;
+                  '<div class="CromoNombre">' + htmlEncode(sPos) + '</div>' + ;
+                  '<div class="CromoDatos">' + ;
+                  '<div class="CromoDato"><div class="CromoEtiqueta">Tipo</div>' + sTipo + '</div>' + ;
+                  '</div></div>' + ;
+                  '<div class="CromoDorsal"><span class="CromoIconoPos">' + IconoPosicion(sPos) + '</span></div>' + ;
+                  '</div>') to sHtml
+        End
+
+        Send UpdateHTML of oCabecera sHtml
+    End_Procedure
 
     Procedure SetActionButtons
         tWebNavigateData NavigateData
@@ -145,6 +206,8 @@ Object oZoomPosicion is a cWebView
         Case End
 
         Send SetActionButtons
+        // Sprint 3: dibujar el cromo al abrir la ficha
+        Send ActualizarCabecera
 
     End_Procedure
 

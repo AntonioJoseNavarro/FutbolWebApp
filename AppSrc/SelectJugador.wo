@@ -1,4 +1,4 @@
-﻿ // C:\DataFlexProjects\FutbolWebApp\AppSrc\SelectJugador.wo
+﻿// C:\DataFlexProjects\FutbolWebApp\AppSrc\SelectJugador.wo
 // Jugador
 //
 
@@ -43,31 +43,34 @@ Object oSelectJugador is a cWebView
         Set psCSSClass to "MobileList"
         Set pbServerOnRowClick to True
         Set pbFillHeight to True
-        Set pbShowHeader to False
+        // Sprint 3: cabecera con los titulos de las columnas (estilo marcador en el CSS)
+        Set pbShowHeader to True
         Set piSortColumn to 0
 
         Object ojugadorID is a cWebColumn
             Entry_Item jugador.ID
-            Set psCaption to "jugador.ID"
-            Set piWidth to 100
+            Set psCaption to "ID"
+            // Ancho suficiente para IDs de dos cifras
+            Set piWidth to 120
         End_Object 
 
-        Object ojugadorNombre is a cWebColumn
-            Entry_Item jugador.Nombre
-            Set psCaption to "jugador.Nombre"
-            Set piWidth to 600
-        End_Object 
+        // Sprint 3: nombre completo con la franja de colores de su equipo
+        Object ojugadorNombreCompleto is a cWebColumn
+            Set psCaption to "Jugador"
+            Set piWidth to 900
+            Set pbEnabled to False
+            Set pbAllowHtml to True
+            Set pbValueAsTooltip to False
 
-        Object ojugadorApellido is a cWebColumn
-            Entry_Item jugador.Apellido
-            Set psCaption to "jugador.Apellido"
-            Set piWidth to 600
+            Procedure OnSetCalculatedValue String ByRef sValue
+                Move (JugadorHtml(jugador.Nombre, jugador.Apellido, equipo.Nombre)) to sValue
+            End_Procedure
         End_Object 
 
         // Nacionalidad con bandera (columna calculada con HTML)
         Object ojugadorNacionalidad is a cWebColumn
-            Set psCaption to "jugador.Nacionalidad"
-            Set piWidth to 500
+            Set psCaption to "Nacionalidad"
+            Set piWidth to 550
             Set pbEnabled to False
             Set pbAllowHtml to True
             Set pbValueAsTooltip to False
@@ -77,14 +80,47 @@ Object oSelectJugador is a cWebView
             End_Procedure
         End_Object 
 
+        // Equipo con insignia (columna calculada con HTML)
         Object oequipoNombre is a cWebColumn
-            Entry_Item equipo.Nombre
-            Set psCaption to "equipo.Nombre"
-            Set piWidth to 1201
+            Set psCaption to "Equipo"
+            Set piWidth to 850
+            Set pbEnabled to False
+            Set pbAllowHtml to True
+            Set pbValueAsTooltip to False
+
+            Procedure OnSetCalculatedValue String ByRef sValue
+                Move (EquipoHtml(equipo.Nombre)) to sValue
+            End_Procedure
+        End_Object 
+
+        // Sprint 3: liga con la bandera de su pais (la trae el relate equipo -> liga)
+        Object oligaNombre is a cWebColumn
+            Set psCaption to "Liga"
+            Set piWidth to 700
+            Set pbEnabled to False
+            Set pbAllowHtml to True
+            Set pbValueAsTooltip to False
+
+            Procedure OnSetCalculatedValue String ByRef sValue
+                Move (LigaHtml(liga.Pais, liga.Nombre)) to sValue
+            End_Procedure
+        End_Object 
+
+        // Sprint 3: entrenador del equipo del jugador (busqueda por EquipoID)
+        Object oEntrenador is a cWebColumn
+            Set psCaption to "Entrenador"
+            Set piWidth to 800
+            Set pbEnabled to False
+            Set pbAllowHtml to True
+            Set pbValueAsTooltip to False
+
+            Procedure OnSetCalculatedValue String ByRef sValue
+                Move (EntrenadorHtml(equipo.ID)) to sValue
+            End_Procedure
         End_Object 
 
         Object oDetailButton is a cWebColumnButton
-            Set psCaption to "btn"
+            Set psCaption to ""
             Set piWidth to 45
             Set pbFixedWidth to True
             Set pbResizable to False
@@ -127,11 +163,12 @@ Object oSelectJugador is a cWebView
 
     End_Object 
 
+    // Sprint 3: textos de los botones en espanol (misma posicion que antes)
     Object oActionGroup is a cWebMenuGroup
 
         Object oSearch is a cWebMenuItem
             Set psCSSClass to "WebPromptMenuItem"
-            Set psCaption to "Search"
+            Set psCaption to "Buscar"
 
             Procedure OnClick
                 Send Search of oList
@@ -141,7 +178,7 @@ Object oSelectJugador is a cWebView
 
         Object oNewButton is a cWebMenuItem
             Set psCSSClass to "WebClearMenuItem"
-            Set psCaption to "New"
+            Set psCaption to "Nuevo"
 
             WebRegisterPath ntNavigateForward oZoomJugador
 

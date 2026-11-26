@@ -33,19 +33,20 @@ Object oSelectPosicion is a cWebView
         Set psCSSClass to "MobileList"
         Set pbServerOnRowClick to True
         Set pbFillHeight to True
-        Set pbShowHeader to False
+        // Sprint 3: cabecera con los titulos de las columnas (estilo marcador en el CSS)
+        Set pbShowHeader to True
         Set piSortColumn to 0
 
         Object oposicionID is a cWebColumn
             Entry_Item posicion.ID
-            Set psCaption to "posicion.ID"
-            Set piWidth to 100
+            Set psCaption to "ID"
+            Set piWidth to 120
         End_Object 
 
         // Nombre con icono de posicion (columna calculada con HTML)
         Object oposicionNombre is a cWebColumn
-            Set psCaption to "posicion.Nombre"
-            Set piWidth to 500
+            Set psCaption to "Posición"
+            Set piWidth to 1500
             Set pbEnabled to False
             Set pbAllowHtml to True
             Set pbValueAsTooltip to False
@@ -56,7 +57,7 @@ Object oSelectPosicion is a cWebView
         End_Object 
 
         Object oDetailButton is a cWebColumnButton
-            Set psCaption to "btn"
+            Set psCaption to ""
             Set piWidth to 45
             Set pbFixedWidth to True
             Set pbResizable to False
@@ -99,11 +100,12 @@ Object oSelectPosicion is a cWebView
 
     End_Object 
 
+    // Sprint 3: textos de los botones en espanol (misma posicion que antes)
     Object oActionGroup is a cWebMenuGroup
 
         Object oSearch is a cWebMenuItem
             Set psCSSClass to "WebPromptMenuItem"
-            Set psCaption to "Search"
+            Set psCaption to "Buscar"
 
             Procedure OnClick
                 Send Search of oList
@@ -113,7 +115,7 @@ Object oSelectPosicion is a cWebView
 
         Object oNewButton is a cWebMenuItem
             Set psCSSClass to "WebClearMenuItem"
-            Set psCaption to "New"
+            Set psCaption to "Nuevo"
 
             WebRegisterPath ntNavigateForward oZoomPosicion
 

@@ -18,6 +18,13 @@ Register_Object oSelectEquipo
 Register_Object oSelectEntrenador
 Register_Object oSelectJugador
 
+// Sprint 3: tablas que se cuentan para los contadores de las tarjetas (solo lectura)
+Open posicion
+Open liga
+Open equipo
+Open entrenador
+Open jugador
+
 Object oDashboard is a cWebView
 
     Set piMaxWidth to 1024
@@ -133,8 +140,78 @@ Object oDashboard is a cWebView
         End_Object
     
     End_Object
+
+    // Sprint 3: cuenta los registros de una tabla recorriendola por su indice 1.
+    // Recibe el numero de tabla (por ejemplo posicion.File_Number).
+    Function ContarRegistros Integer hTabla Returns Integer
+        Integer iNum
+
+        Move 0 to iNum
+        Clear hTabla
+        Vfind hTabla 1 GT
+        While (Found)
+            Increment iNum
+            Vfind hTabla 1 GT
+        Loop
+
+        Function_Return iNum
+    End_Function
+
+    // Sprint 3: HTML de una tarjeta con su contador ("6 posiciones").
+    // Mantiene data-ServerOnClick para que la tarjeta siga navegando al pulsarla.
+    Function TileHtml String sEmoji String sTitulo Integer iNum String sSingular String sPlural Returns String
+        String sNum sTexto
+
+        Move iNum to sNum
+        If (iNum = 1) Begin
+            Move sSingular to sTexto
+        End
+        Else Begin
+            Move sPlural to sTexto
+        End
+
+        Function_Return ('<div class="WebCon_Sizer" data-ServerOnClick="openview">' + ;
+                         '<div class="Tile_Emoji">' + sEmoji + '</div>' + ;
+                         '<div class="Tile_Title">' + sTitulo + '</div>' + ;
+                         '<div class="Tile_Subtitle"><span class="Tile_Num">' + sNum + '</span> ' + sTexto + '</div>' + ;
+                         '</div>')
+    End_Function
+
+    // Sprint 3: recalcula los contadores y redibuja las 5 tarjetas
+    Procedure ActualizarContadores
+        Handle hTabla
+        Integer iNum
+        String sHtml
+
+        Move posicion.File_Number to hTabla
+        Get ContarRegistros hTabla to iNum
+        Get TileHtml "&#9917;" "Posiciones" iNum "posici&oacute;n" "posiciones" to sHtml
+        Send UpdateHTML of oTilePosicion sHtml
+
+        Move liga.File_Number to hTabla
+        Get ContarRegistros hTabla to iNum
+        Get TileHtml "&#127942;" "Ligas" iNum "liga" "ligas" to sHtml
+        Send UpdateHTML of oTileLiga sHtml
+
+        Move equipo.File_Number to hTabla
+        Get ContarRegistros hTabla to iNum
+        Get TileHtml "&#128085;" "Equipos" iNum "equipo" "equipos" to sHtml
+        Send UpdateHTML of oTileEquipo sHtml
+
+        Move entrenador.File_Number to hTabla
+        Get ContarRegistros hTabla to iNum
+        Get TileHtml "&#128203;" "Entrenadores" iNum "entrenador" "entrenadores" to sHtml
+        Send UpdateHTML of oTileEntrenador sHtml
+
+        Move jugador.File_Number to hTabla
+        Get ContarRegistros hTabla to iNum
+        Get TileHtml "&#128095;" "Jugadores" iNum "jugador" "jugadores" to sHtml
+        Send UpdateHTML of oTileJugador sHtml
+    End_Procedure
     
+    // Se ejecuta cada vez que se muestra el Dashboard (tambien al volver a el)
     Procedure OnBeforeShow
+        Send ActualizarContadores
     End_Procedure
 
 End_Object

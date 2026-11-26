@@ -8,9 +8,12 @@ Use cWebMenuGroup.pkg
 Use cWebMenuItem.pkg
 Use cWebForm.pkg
 Use cWebButton.pkg
+Use cWebHtmlBox.pkg
 Use SelectEquipo.wo
 // Vista a la que navega el boton "Ver posiciones" (Sprint 2 - Punto 4)
 Use SelectPosicion.wo
+// Funciones HTML (banderas, insignias, liga, entrenador)
+Use Banderas.pkg
 
 Use cligaDataDictionary.dd
 Use cequipoDataDictionary.dd
@@ -26,14 +29,33 @@ Object oZoomJugador is a cWebView
     Set piMaxWidth to 1024
 
     Object oliga_DD is a cligaDataDictionary
+        // Sprint 3: el relate carga la liga DESPUES del equipo,
+        // asi que tambien hay que redibujar el cromo cuando cambia la liga
+        Procedure OnNewCurrentRecord RowID riOldRowId RowID riNewRowId
+            Forward Send OnNewCurrentRecord riOldRowId riNewRowId
+            Send ActualizarCabecera
+        End_Procedure
     End_Object 
 
     Object oequipo_DD is a cequipoDataDictionary
         Set DDO_Server to oliga_DD
+
+        // Sprint 3: al cambiar de equipo (por ejemplo con la lupa)
+        // se redibuja el cromo de la cabecera
+        Procedure OnNewCurrentRecord RowID riOldRowId RowID riNewRowId
+            Forward Send OnNewCurrentRecord riOldRowId riNewRowId
+            Send ActualizarCabecera
+        End_Procedure
     End_Object 
 
     Object ojugador_DD is a cjugadorDataDictionary
         Set DDO_Server to oequipo_DD
+
+        // Sprint 3: al cargar otro jugador se redibuja el cromo de la cabecera
+        Procedure OnNewCurrentRecord RowID riOldRowId RowID riNewRowId
+            Forward Send OnNewCurrentRecord riOldRowId riNewRowId
+            Send ActualizarCabecera
+        End_Procedure
     End_Object 
 
     Set Main_DD to ojugador_DD
@@ -43,6 +65,12 @@ Object oZoomJugador is a cWebView
     Object oWebMainPanel is a cWebPanel
         Set piColumnCount to 12
         WebSetResponsive piColumnCount rmMobile to 4
+
+        // Sprint 3: cabecera tipo "cromo" del jugador (se rellena en ActualizarCabecera)
+        Object oCabecera is a cWebHtmlBox
+            Set piColumnSpan to 0
+            Set psHtml to ''
+        End_Object
 
         Object ojugadorID is a cWebForm
             Entry_Item jugador.ID
@@ -125,11 +153,12 @@ Object oZoomJugador is a cWebView
         End_Object
     End_Object 
 
+    // Sprint 3: textos de los botones en espanol (misma posicion que antes)
     Object oActionGroup is a cWebMenuGroup
 
         Object oSaveBtn is a cWebMenuItem
             Set psCSSClass to "WebSaveMenuItem"
-            Set psCaption to "Save"
+            Set psCaption to "Guardar"
 
             Procedure OnClick
                 Send Request_Save
@@ -139,7 +168,7 @@ Object oZoomJugador is a cWebView
 
         Object oEditBtn is a cWebMenuItem
             Set psCSSClass to "WebEditMenuItem"
-            Set psCaption to "Edit"
+            Set psCaption to "Editar"
             Procedure OnClick
                 Send ChangeEditMode True
                 Send SetActionButtons
@@ -149,7 +178,7 @@ Object oZoomJugador is a cWebView
 
         Object oDeleteBtn is a cWebMenuItem
             Set psCSSClass to "WebDeleteMenuItem"
-            Set psCaption to "Delete"
+            Set psCaption to "Eliminar"
             Set peActionDisplay to adMenu
 
             Procedure OnClick
@@ -160,7 +189,7 @@ Object oZoomJugador is a cWebView
 
         Object oCancelChangesBtn is a cWebMenuItem
             Set psCSSClass to "WebIcon_Refresh"
-            Set psCaption to "Clear Changes"
+            Set psCaption to "Deshacer cambios"
             Set peActionDisplay to adMenu
             Procedure OnClick
                 Send RefreshRecord
@@ -168,6 +197,69 @@ Object oZoomJugador is a cWebView
 
         End_Object 
     End_Object 
+
+    // Sprint 3: construye el cromo de la cabecera con los datos actuales
+    // de los DDO (jugador y, por el relate, su equipo y su liga).
+    // Estructura: franja del club | nombre + datos con etiquetas | dorsal
+    Procedure ActualizarCabecera
+        String sNombre sApellido sNac sEquipo sLiga sPais sClase sHtml sID sMarca
+        Integer iID iEquipoID
+
+        Get Field_Current_Value of ojugador_DD Field jugador.ID           to iID
+        Get Field_Current_Value of ojugador_DD Field jugador.Nombre       to sNombre
+        Get Field_Current_Value of ojugador_DD Field jugador.Apellido     to sApellido
+        Get Field_Current_Value of ojugador_DD Field jugador.Nacionalidad to sNac
+        Get File_Field_Current_Value of ojugador_DD File_Field equipo.ID     to iEquipoID
+        Get File_Field_Current_Value of ojugador_DD File_Field equipo.Nombre to sEquipo
+        Get File_Field_Current_Value of ojugador_DD File_Field liga.Nombre   to sLiga
+        Get File_Field_Current_Value of ojugador_DD File_Field liga.Pais     to sPais
+
+        // Jugador nuevo (sin nombre todavia)
+        If ((Trim(sNombre) = "") and (Trim(sApellido) = "")) Begin
+            Move ('<div class="Cromo"><div class="CromoFranja otro"></div>' + ;
+                  '<div class="CromoInfo"><div class="CromoNombre">Nuevo jugador</div>' + ;
+                  '<div class="CromoAviso">Rellena sus datos y elige su equipo</div></div></div>') to sHtml
+        End
+        Else Begin
+            Move (ClaseEquipo(sEquipo)) to sClase
+
+            // Marca de agua: iniciales del club (o la inicial si no tiene colores)
+            Move "" to sMarca
+            If (Trim(sEquipo) <> "") Begin
+                If (sClase = "otro") Begin
+                    Move (Uppercase(Left(Trim(sEquipo), 1))) to sMarca
+                End
+                Else Begin
+                    Move (Uppercase(sClase)) to sMarca
+                End
+            End
+
+            Move iID to sID
+
+            // Franja + nombre
+            Move ('<div class="Cromo"><div class="CromoFranja ' + sClase + '"></div>' + ;
+                  '<div class="CromoInfo">' + ;
+                  '<div class="CromoNombre">' + htmlEncode(Trim(sNombre) + " " + Trim(sApellido)) + '</div>' + ;
+                  '<div class="CromoDatos">') to sHtml
+
+            // Datos con su etiqueta encima
+            Move (sHtml + '<div class="CromoDato"><div class="CromoEtiqueta">Nacionalidad</div>' + BanderaHtml(sNac) + '</div>') to sHtml
+            Move (sHtml + '<div class="CromoDato"><div class="CromoEtiqueta">Equipo</div>' + EquipoHtml(sEquipo) + '</div>') to sHtml
+            Move (sHtml + '<div class="CromoDato"><div class="CromoEtiqueta">Liga</div>' + LigaHtml(sPais, sLiga) + '</div>') to sHtml
+            If (iEquipoID <> 0) Begin
+                Move (sHtml + '<div class="CromoDato"><div class="CromoEtiqueta">Entrenador</div>' + EntrenadorHtml(iEquipoID) + '</div>') to sHtml
+            End
+            Move (sHtml + '</div></div>') to sHtml
+
+            // Dorsal grande con las iniciales del club de fondo
+            Move (sHtml + '<div class="CromoDorsal">' + ;
+                  '<span class="CromoMarca">' + sMarca + '</span>' + ;
+                  '<span class="CromoNumero"><small>#</small>' + sID + '</span>' + ;
+                  '</div></div>') to sHtml
+        End
+
+        Send UpdateHTML of oCabecera sHtml
+    End_Procedure
 
     Procedure SetActionButtons
         tWebNavigateData NavigateData
@@ -226,6 +318,8 @@ Object oZoomJugador is a cWebView
         Case End
 
         Send SetActionButtons
+        // Sprint 3: dibujar el cromo al abrir la ficha
+        Send ActualizarCabecera
 
     End_Procedure
 

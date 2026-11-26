@@ -7,7 +7,10 @@ Use cWebPanel.pkg
 Use cWebMenuGroup.pkg
 Use cWebMenuItem.pkg
 Use cWebForm.pkg
+Use cWebHtmlBox.pkg
 Use SelectLiga.wo
+// Funciones HTML (banderas, insignias, liga, entrenador)
+Use Banderas.pkg
 
 Use cligaDataDictionary.dd
 Use cequipoDataDictionary.dd
@@ -22,10 +25,22 @@ Object oZoomEquipo is a cWebView
     Set piMaxWidth to 1024
 
     Object oliga_DD is a cligaDataDictionary
+        // Sprint 3: al cambiar de liga (por ejemplo con la lupa)
+        // se redibuja el cromo de la cabecera
+        Procedure OnNewCurrentRecord RowID riOldRowId RowID riNewRowId
+            Forward Send OnNewCurrentRecord riOldRowId riNewRowId
+            Send ActualizarCabecera
+        End_Procedure
     End_Object 
 
     Object oequipo_DD is a cequipoDataDictionary
         Set DDO_Server to oliga_DD
+
+        // Sprint 3: al cargar otro equipo se redibuja el cromo de la cabecera
+        Procedure OnNewCurrentRecord RowID riOldRowId RowID riNewRowId
+            Forward Send OnNewCurrentRecord riOldRowId riNewRowId
+            Send ActualizarCabecera
+        End_Procedure
     End_Object 
 
     Set Main_DD to oequipo_DD
@@ -35,6 +50,12 @@ Object oZoomEquipo is a cWebView
     Object oWebMainPanel is a cWebPanel
         Set piColumnCount to 12
         WebSetResponsive piColumnCount rmMobile to 4
+
+        // Sprint 3: cabecera tipo "cromo" del equipo (se rellena en ActualizarCabecera)
+        Object oCabecera is a cWebHtmlBox
+            Set piColumnSpan to 0
+            Set psHtml to ''
+        End_Object
 
         Object oequipoID is a cWebForm
             Entry_Item equipo.ID
@@ -83,11 +104,12 @@ Object oZoomEquipo is a cWebView
         End_Object 
     End_Object 
 
+    // Sprint 3: textos de los botones en espanol (misma posicion que antes)
     Object oActionGroup is a cWebMenuGroup
 
         Object oSaveBtn is a cWebMenuItem
             Set psCSSClass to "WebSaveMenuItem"
-            Set psCaption to "Save"
+            Set psCaption to "Guardar"
 
             Procedure OnClick
                 Send Request_Save
@@ -97,7 +119,7 @@ Object oZoomEquipo is a cWebView
 
         Object oEditBtn is a cWebMenuItem
             Set psCSSClass to "WebEditMenuItem"
-            Set psCaption to "Edit"
+            Set psCaption to "Editar"
             Procedure OnClick
                 Send ChangeEditMode True
                 Send SetActionButtons
@@ -107,7 +129,7 @@ Object oZoomEquipo is a cWebView
 
         Object oDeleteBtn is a cWebMenuItem
             Set psCSSClass to "WebDeleteMenuItem"
-            Set psCaption to "Delete"
+            Set psCaption to "Eliminar"
             Set peActionDisplay to adMenu
 
             Procedure OnClick
@@ -118,7 +140,7 @@ Object oZoomEquipo is a cWebView
 
         Object oCancelChangesBtn is a cWebMenuItem
             Set psCSSClass to "WebIcon_Refresh"
-            Set psCaption to "Clear Changes"
+            Set psCaption to "Deshacer cambios"
             Set peActionDisplay to adMenu
             Procedure OnClick
                 Send RefreshRecord
@@ -126,6 +148,60 @@ Object oZoomEquipo is a cWebView
 
         End_Object 
     End_Object 
+
+    // Sprint 3: construye el cromo de la cabecera con los datos actuales
+    // de los DDO (equipo y, por el relate, su liga).
+    // Estructura: franja del club | nombre + datos con etiquetas | insignia grande
+    Procedure ActualizarCabecera
+        String sEquipo sLiga sPais sClase sIni sHtml
+        Integer iEquipoID
+
+        Get Field_Current_Value of oequipo_DD Field equipo.ID     to iEquipoID
+        Get Field_Current_Value of oequipo_DD Field equipo.Nombre to sEquipo
+        Get File_Field_Current_Value of oequipo_DD File_Field liga.Nombre to sLiga
+        Get File_Field_Current_Value of oequipo_DD File_Field liga.Pais   to sPais
+
+        // Equipo nuevo (sin nombre todavia)
+        If (Trim(sEquipo) = "") Begin
+            Move ('<div class="Cromo"><div class="CromoFranja otro"></div>' + ;
+                  '<div class="CromoInfo"><div class="CromoNombre">Nuevo equipo</div>' + ;
+                  '<div class="CromoAviso">Escribe su nombre y elige su liga</div></div></div>') to sHtml
+        End
+        Else Begin
+            Move (ClaseEquipo(sEquipo)) to sClase
+
+            // Iniciales de la insignia grande (o la inicial si no tiene colores)
+            If (sClase = "otro") Begin
+                Move (Uppercase(Left(Trim(sEquipo), 1))) to sIni
+            End
+            Else Begin
+                Move (Uppercase(sClase)) to sIni
+            End
+
+            // Franja + nombre
+            Move ('<div class="Cromo"><div class="CromoFranja ' + sClase + '"></div>' + ;
+                  '<div class="CromoInfo">' + ;
+                  '<div class="CromoNombre">' + htmlEncode(Trim(sEquipo)) + '</div>' + ;
+                  '<div class="CromoDatos">') to sHtml
+
+            // Datos con su etiqueta encima
+            Move (sHtml + '<div class="CromoDato"><div class="CromoEtiqueta">Liga</div>' + LigaHtml(sPais, sLiga) + '</div>') to sHtml
+            If (Trim(sPais) <> "") Begin
+                Move (sHtml + '<div class="CromoDato"><div class="CromoEtiqueta">Pa&iacute;s</div>' + BanderaHtml(sPais) + '</div>') to sHtml
+            End
+            If (iEquipoID <> 0) Begin
+                Move (sHtml + '<div class="CromoDato"><div class="CromoEtiqueta">Entrenador</div>' + EntrenadorHtml(iEquipoID) + '</div>') to sHtml
+            End
+            Move (sHtml + '</div></div>') to sHtml
+
+            // Insignia del club en grande a la derecha
+            Move (sHtml + '<div class="CromoDorsal">' + ;
+                  '<span class="Insignia ' + sClase + ' CromoInsigniaGrande">' + sIni + '</span>' + ;
+                  '</div></div>') to sHtml
+        End
+
+        Send UpdateHTML of oCabecera sHtml
+    End_Procedure
 
     Procedure SetActionButtons
         tWebNavigateData NavigateData
@@ -181,6 +257,8 @@ Object oZoomEquipo is a cWebView
         Case End
 
         Send SetActionButtons
+        // Sprint 3: dibujar el cromo al abrir la ficha
+        Send ActualizarCabecera
 
     End_Procedure
 

@@ -43,31 +43,34 @@ Object oSelectEntrenador is a cWebView
         Set psCSSClass to "MobileList"
         Set pbServerOnRowClick to True
         Set pbFillHeight to True
-        Set pbShowHeader to False
+        // Sprint 3: cabecera con los titulos de las columnas (estilo marcador en el CSS)
+        Set pbShowHeader to True
         Set piSortColumn to 0
 
         Object oentrenadorID is a cWebColumn
             Entry_Item entrenador.ID
-            Set psCaption to "entrenador.ID"
-            Set piWidth to 100
+            Set psCaption to "ID"
+            Set piWidth to 120
         End_Object 
 
-        Object oentrenadorNombre is a cWebColumn
-            Entry_Item entrenador.Nombre
-            Set psCaption to "entrenador.Nombre"
-            Set piWidth to 600
-        End_Object 
+        // Sprint 3: nombre completo con la franja de colores de su equipo
+        // (JugadorHtml sirve para cualquier persona: nombre, apellido y equipo)
+        Object oentrenadorNombreCompleto is a cWebColumn
+            Set psCaption to "Entrenador"
+            Set piWidth to 900
+            Set pbEnabled to False
+            Set pbAllowHtml to True
+            Set pbValueAsTooltip to False
 
-        Object oentrenadorApellido is a cWebColumn
-            Entry_Item entrenador.Apellido
-            Set psCaption to "entrenador.Apellido"
-            Set piWidth to 600
+            Procedure OnSetCalculatedValue String ByRef sValue
+                Move (JugadorHtml(entrenador.Nombre, entrenador.Apellido, equipo.Nombre)) to sValue
+            End_Procedure
         End_Object 
 
         // Nacionalidad con bandera (columna calculada con HTML)
         Object oentrenadorNacionalidad is a cWebColumn
-            Set psCaption to "entrenador.Nacionalidad"
-            Set piWidth to 500
+            Set psCaption to "Nacionalidad"
+            Set piWidth to 550
             Set pbEnabled to False
             Set pbAllowHtml to True
             Set pbValueAsTooltip to False
@@ -77,14 +80,34 @@ Object oSelectEntrenador is a cWebView
             End_Procedure
         End_Object 
 
+        // Equipo con insignia, o "Sin equipo" (columna calculada con HTML)
         Object oequipoNombre is a cWebColumn
-            Entry_Item equipo.Nombre
-            Set psCaption to "equipo.Nombre"
-            Set piWidth to 1201
+            Set psCaption to "Equipo"
+            Set piWidth to 850
+            Set pbEnabled to False
+            Set pbAllowHtml to True
+            Set pbValueAsTooltip to False
+
+            Procedure OnSetCalculatedValue String ByRef sValue
+                Move (EquipoHtml(equipo.Nombre)) to sValue
+            End_Procedure
+        End_Object 
+
+        // Sprint 3: liga con la bandera de su pais (la trae el relate equipo -> liga)
+        Object oligaNombre is a cWebColumn
+            Set psCaption to "Liga"
+            Set piWidth to 700
+            Set pbEnabled to False
+            Set pbAllowHtml to True
+            Set pbValueAsTooltip to False
+
+            Procedure OnSetCalculatedValue String ByRef sValue
+                Move (LigaHtml(liga.Pais, liga.Nombre)) to sValue
+            End_Procedure
         End_Object 
 
         Object oDetailButton is a cWebColumnButton
-            Set psCaption to "btn"
+            Set psCaption to ""
             Set piWidth to 45
             Set pbFixedWidth to True
             Set pbResizable to False
@@ -127,11 +150,12 @@ Object oSelectEntrenador is a cWebView
 
     End_Object 
 
+    // Sprint 3: textos de los botones en espanol (misma posicion que antes)
     Object oActionGroup is a cWebMenuGroup
 
         Object oSearch is a cWebMenuItem
             Set psCSSClass to "WebPromptMenuItem"
-            Set psCaption to "Search"
+            Set psCaption to "Buscar"
 
             Procedure OnClick
                 Send Search of oList
@@ -141,7 +165,7 @@ Object oSelectEntrenador is a cWebView
 
         Object oNewButton is a cWebMenuItem
             Set psCSSClass to "WebClearMenuItem"
-            Set psCaption to "New"
+            Set psCaption to "Nuevo"
 
             WebRegisterPath ntNavigateForward oZoomEntrenador
 
